@@ -16,7 +16,12 @@ body {
 
 .logo-container {
     text-align: center;
-    margin-top: 200px; /* 아래로 이동 */
+    margin-top: 200px; 
+}
+
+.logo-container img {
+    max-width: 100%; /* 이미지의 최대 가로 너비를 부모 요소에 맞게 조절 */
+    max-height: 100%; /* 이미지의 최대 세로 높이를 부모 요소에 맞게 조절 */
 }
 
 .circle {
@@ -35,7 +40,9 @@ body {
     background: conic-gradient(
         #007bff 0deg 120deg,
         transparent 360deg 360deg
-    ); /* 테두리를 채우는 애니메이션 */
+    ); 
+    
+    /* 테두리를 채우는 애니메이션 */
     border-radius: 100%; /* 수동으로 테두리 위치와 크기를 조정 */
     position: absolute;
     top: -20px;
