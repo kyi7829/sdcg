@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css'/>
     <link rel="stylesheet" href="../css/main-page-common.css">
     <link rel="stylesheet" href="../css/main-page.css">
     <title>메인화면</title>
@@ -41,19 +42,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>2023-09-03</td>
-                        <td>식비</td>
-                        <td>50,000원</td>
+                        <td id="recentSavingsDate1"></td>
+                        <td id="recentSavingsItem1"></td>
+                        <td id="recentSavingsMoney1"></td>
                     </tr>
                     <tr>
-                        <td>2023-09-02</td>
-                        <td>교통비</td>
-                        <td>30,000원</td>
+                        <td id="recentSavingsDate2"></td>
+                        <td id="recentSavingsItem2"></td>
+                        <td id="recentSavingsMoney2"></td>
                     </tr>
                     <tr>
-                        <td>2023-09-01</td>
-                        <td>문화생활</td>
-                        <td>20,000원</td>
+                        <td id="recentSavingsDate3"></td>
+                        <td id="recentSavingsItem3"></td>
+                        <td id="recentSavingsMoney3"></td>
                     </tr>
                 </tbody>
             </table>
@@ -71,39 +72,55 @@
                 <div class="modal-content">
                     <h2>절약 내역 추가</h2>
 
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td class="gray-bg">날짜</td>
-                                <td class="white-bg" id="currentDateTime"></td>
-                            </tr>
-                            <tr>
-                                <td class="gray-bg">항목</td>
-                                <td class="white-bg">
-                                    <select style="width: 100%; height: 100%;">
-                                        <option value="식비">식비</option>
-                                        <option value="교통비">교통비</option>
-                                        <option value="기타">기타</option>
-                                    </select>
-                                </td>
-                            </tr>                            
-                            <tr>
-                                <td class="gray-bg">기타</td>
-                                <td class="white-bg">항목에서 기타를 고르면 활성</td>
-                            </tr>
-                            <tr>
-                                <td class="gray-bg">금액</td>
-                                <td class="white-bg">
-                                    <input type="number" placeholder="금액을 입력 해 주세요." style="width: 100%; height: 100%;">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="button-container">
-                        <button id="closeModalBtn" class="gray-button">취소</button>
-                        <button id="submitButton" class="blue-button">등록</button>
+                    <div class="recentSavings">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="gray-bg">날짜</td>
+                                    <td class="white-bg disable-on-popup" id="yearMonthDay"></td>
+                                    <td class="white-bg disable-on-popup" id="hourMinute"></td>
+                                </tr>
+                                <tr>
+                                    <td class="gray-bg">항목</td>
+                                    <td class="white-bg disable-on-popup" colspan="2"> 
+                                        <select style="width: 100%; height: 100%;">
+                                            <option value="식비">식비</option>
+                                            <option value="교통비">교통비</option>
+                                            <option value="기타">기타</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="gray-bg">금액</td>
+                                    <td class="white-bg disable-on-popup" colspan="2">
+                                        <input id="inputMoney" type="text" placeholder="금액을 입력해 주세요." style="width: 100%; height: 100%;">
+                                    </td>
+                                </tr>                                                        
+                                <tr>
+                                    <td class="gray-bg">메모</td>
+                                    <td class="white-bg disable-on-popup" colspan="2">
+                                        <input id="memo" type="text" placeholder="메모할 사항을 입력해주세요." style="width: 100%; height: 100%;">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+
+                    <div class="button-container disable-on-popup">
+                        <button id="closeModalBtn" class="gray-button">취소</button>
+                        <button id="submitModalBtn" class="blue-button">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 날짜선택 달력 모달창 -->
+        <div class="calendar-wrapper" id="calendarWrapper">
+            <div class="modal">
+                <!-- 모달 내용 -->
+                <div class="modal-content">
+                        <!-- [컨테이너 생성] -->
+                        <div id="calendar"></div>
                 </div>
             </div>
         </div>
@@ -116,8 +133,18 @@
 
     <!-- banner btn (10%)-->
     <div class="banner-button">
+        <button id="btnHome"><img src="../images/home1.png" alt="Button 1"></button>
+        <button id="btnCalendar"><img src="../images/calendar1.png" alt="Button 2"></button>
+        <button id="btnUserInfo"><img src="../images/user1.png" alt="Button 3"></button>
+        <button id="btnSettings"><img src="../images/gear1.png" alt="Button 4"></button>
     </div>
 
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.10.6/dayjs.min.js"></script>
     <script src="../js/main-page.js"></script>
+    <script src="../js/main-page-common.js"></script>
 </body>
 </html>
