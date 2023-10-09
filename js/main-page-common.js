@@ -8,6 +8,9 @@ btnHome.addEventListener('click', function() {
 });
 
 btnCalendar.addEventListener('click', function() {
+
+    // window.open('../html/calendar-page.html', 'test');
+
     window.location.href = '../html/calendar-page.html';
 });
 

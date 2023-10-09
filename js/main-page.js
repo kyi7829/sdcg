@@ -1,4 +1,3 @@
-
 // 현재 시각을 가져오는 함수
 function getCurrentDateTime() {
     const now = new Date();
@@ -148,9 +147,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const modalWrapper = document.getElementById('modalWrapper');
     const calendarWrapper = document.getElementById('calendarWrapper');
 
-    // 모달을 초기에 숨김
-    modalWrapper.style.display = 'none';
-
     // 모달 열기
     openModalBtn.addEventListener('click', () => {
         modalWrapper.style.display = 'flex';
@@ -173,21 +169,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // 달력
-
-    // [현재 날짜 및 시간 확인]
-    // var korea_date = dayjs(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
-    // var format = "YYYY-MM-DDTHH:mm:ss"; // 포맷 타입
-    // var koreaNow = korea_date.format(format);
-
     // [calendar 객체 지정]
     var calendarElement = document.getElementById("calendar");
 
     // [full-calendar 생성]
     var calendar = new FullCalendar.Calendar(calendarElement, {
-        
-        // expandRows: true, // 화면에 맞게 높이 재설정
-        // slotMinTime: '00:00', // 캘린더에서 일정 시작 시간
-        // slotMaxTime: '23:59', // 캘린더에서 일정 종료 시간
 
         // 해더에 표시할 툴바
         headerToolbar: {
@@ -203,20 +189,11 @@ document.addEventListener('DOMContentLoaded', function () {
         
         navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         
-        // editable: false, // 수정 가능 여부
-        
-        // selectable: false, // 달력 일자 드래그 설정가능
-        
-        // nowIndicator: false, // 현재 시간 마크
-        
-        // dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-        
         locale: 'ko', // 한국어 설정
 
         selectLongPressDelay:300, // 선택 클릭 발동 시간 
         
         dateClick: function (info) {
-            
             // 날짜 수정
             document.getElementById('yearMonthDay').textContent = info.dateStr;
 
@@ -235,8 +212,9 @@ document.addEventListener('DOMContentLoaded', function () {
     yearMonthDay.addEventListener('click', () => {
         calendarWrapper.style.display = 'flex';
 
-        // 오늘 일자로 자동이동
-        document.querySelector(".fc-today-button.fc-button.fc-button-primary").click();
+        // 달력 초기화
+        document.querySelector(".fc-next-button.fc-button.fc-button-primary").click(); // css 충돌 방지 버튼 클릭
+        document.querySelector(".fc-today-button.fc-button.fc-button-primary").click(); // 오늘 일자로 이동
 
         // 기존 항목 클릭 비활성화
         disableElements();
@@ -266,17 +244,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }        
     });
 });
-
-// 달력 초기화
-window.onload = function () {    
-    const buttonToClick1 = document.querySelector(".fc-next-button.fc-button.fc-button-primary");
-    const buttonToClick2 = document.querySelector(".fc-today-button.fc-button.fc-button-primary");
-
-    buttonToClick1?.click();
-    buttonToClick2?.click();
-
-    calendarWrapper.style.display = 'none';
-}
 
 // 등록
 submitModalBtn.addEventListener('click', () => {
