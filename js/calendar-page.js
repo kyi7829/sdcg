@@ -11,6 +11,8 @@ window.onload = async function() {
     // [full-calendar 생성]
     var calendar = new FullCalendar.Calendar(calendarElement, {
         
+
+        
         // expandRows: true, // 화면에 맞게 높이 재설정
         // slotMinTime: '00:00', // 캘린더에서 일정 시작 시간
         // slotMaxTime: '23:59', // 캘린더에서 일정 종료 시간
@@ -46,13 +48,90 @@ window.onload = async function() {
         },
 
         eventClick: function (info) {
-            // 클릭한 이벤트의 날짜 정보를 얻기
-            var eventInfo = info.event;
 
-            var key = eventInfo.id;
-            var startStr = eventInfo.startStr;
-            
-            console.log(key + " " + startStr);
+            // 기존 세부 창 닫기
+            var closeButton = document.querySelector('.fc-popover-close.fc-icon.fc-icon-x');
+            if (closeButton) {
+                closeButton.click();
+            }
+
+            // 기존 데이터
+            var key = info.event.id;
+            const dataInfo = JSON.parse(localStorage.getItem(key));
+
+            // 모달창
+            const modalWrapper = document.getElementById('modalWrapper');
+            modalWrapper.style.display = 'flex';
+                            
+            // 항목 값 초기화
+            document.getElementById('yearMonthDay').textContent = dataInfo.yearMonthDay; // 날짜
+            document.getElementById('hourMinute').textContent = dataInfo.hourMinute; // 시간  
+            document.querySelector('td.white-bg select').value = dataInfo.selectedItem; // 항목
+            document.getElementById('inputMoney').value = dataInfo.money; // 금액
+            document.getElementById('memo').value = dataInfo.memo; // 메모
+        
+            // 취소버튼
+            closeModalBtn.addEventListener('click', () => {
+                modalWrapper.style.display = 'none';
+            });
+
+            // 삭제버튼
+            deleteModalBtn.addEventListener('click', () => {
+                localStorage.removeItem(key);
+
+                // 페이지 새로고침
+                location.reload();  
+            });            
+
+            // 저장버튼
+            submitModalBtn.addEventListener('click', () => {
+                const yearMonthDay = document.getElementById('yearMonthDay').textContent; // 날짜
+                const hourMinute = document.getElementById('hourMinute').textContent; // 시간
+                const selectedItem = document.querySelector('td.white-bg select').value; // 항목
+                const money = document.getElementById('inputMoney').value; // 금액
+                const memo = document.getElementById('memo').value; // 메모
+
+                const saveDataInfo = {
+                    yearMonthDay,
+                    hourMinute,
+                    selectedItem,
+                    money,
+                    memo,
+                };
+
+                // 로컬 스토리지에 데이터를 JSON 형태로 저장
+                localStorage.setItem(key, JSON.stringify(saveDataInfo));
+
+                modalWrapper.style.display = 'none';
+
+                // 페이지 새로고침
+                location.reload();                               
+            }); 
+
+        
+            // 절약 금액
+            const inputMoney = document.getElementById('inputMoney');
+            filterInput(inputMoney, 999999999999);
+        
+            // 금액 포맷 변경 100,000원 -> 100000
+            inputMoney.addEventListener('focus', function() {
+                const inputValue = inputMoney.value; 
+                const numericValue = parseInt(inputValue.replace(/,|원/g, ''), 10); // 쉼표 및 "원" 제거 후 정수로 변환
+                if (!isNaN(numericValue)) {
+                    inputMoney.value = numericValue; // 변환된 값으로 업데이트
+                } 
+            }); 
+        
+            // 금액 포맷 변경 100000 -> 100,000원
+            inputMoney.addEventListener('blur', function() {    
+                const inputValue = inputMoney.value; 
+                if (!isNaN(inputValue)) {
+                    const stringValue = parseFloat(inputValue).toLocaleString();
+                    if (stringValue != 'NaN') {
+                        inputMoney.value = stringValue + '원';
+                    }           
+                }        
+            });            
         },        
 
         // 이벤트 
@@ -61,8 +140,7 @@ window.onload = async function() {
 
     // [캘린더 랜더링]
     calendar.render();
-    
-    
+       
     //----------------------------------------------------------------------------------------------------------------------------
 
     // 이벤트 추가 함수
@@ -105,3 +183,42 @@ window.onload = async function() {
         addEvent(money, yearMonthDay, data.key);
     });
 };    
+
+// 기존 화면 요소 비활성화
+function disableElements() {
+    const elementsToDisable = document.querySelectorAll(".disable-on-popup");
+
+    elementsToDisable.forEach((element) => {
+        element.style.pointerEvents = "none"; 
+    });
+}
+
+// 기존 화면 요소 활성화
+function enableElements() {
+    const elementsToEnable = document.querySelectorAll(".disable-on-popup");
+
+    // 기존 버튼과의 충돌로 인해 활성화 딜레이 추가
+    setTimeout(() => {
+        elementsToEnable.forEach((element) => {
+            element.style.pointerEvents = "auto";
+        });
+    }, 100); // 0.1초(100밀리초) 딜레이
+}
+
+// 절약 금액 inputFilter 적용
+function filterInput(inputElement, maxValue) {
+    inputElement.addEventListener('input', function () {
+        const inputValue = inputElement.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+        let numericValue = parseInt(inputValue, 10); // 숫자로 변환
+
+        // 최대값 적용
+        if (isNaN(numericValue) || numericValue < 1) {
+            inputElement.value = ''; // 값이 비거나 1 미만인 경우, 입력란 비움
+        } else {
+            numericValue = Math.min(maxValue, numericValue); // 최대값으로 제한
+            inputElement.value = numericValue; // 숫자를 다시 입력란에 반영
+        }
+    });
+}
+
+   
