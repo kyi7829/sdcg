@@ -1,8 +1,33 @@
+// 알림창 출력 플래그 
+let showNotificationYn = localStorage.getItem('showNotificationYn') === 'true';
+let workDivision = localStorage.getItem('workDivision') === 'true';
+
+// 알림창 출력 
+function showNotification(message, type) {
+    var notification = document.getElementById('notification');
+    
+    // alert / warning 구분    
+    if (type == "W") {
+        notification.classList.remove("success");
+        notification.classList.add("warning");
+    } else {
+        notification.classList.remove("warning");
+        notification.classList.add("success");
+    }
+
+    notification.textContent = message;
+    notification.style.display = 'block';
+
+    setTimeout(function() {
+      notification.style.display = 'none';
+    }, 5000); // 5초 후에 알림창을 숨김
+}
+
 window.onload = async function() {
 
     // [현재 날짜 및 시간 확인]
     var korea_date = dayjs(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
-    var format = "YYYY-MM-DDTHH:mm:ss"; // 포맷 타입
+    var format = "YYYY-MM-DDTHH:mm:ss"; 
     var koreaNow = korea_date.format(format);
 
     // [calendar 객체 지정]
@@ -11,12 +36,6 @@ window.onload = async function() {
     // [full-calendar 생성]
     var calendar = new FullCalendar.Calendar(calendarElement, {
         
-
-        
-        // expandRows: true, // 화면에 맞게 높이 재설정
-        // slotMinTime: '00:00', // 캘린더에서 일정 시작 시간
-        // slotMaxTime: '23:59', // 캘린더에서 일정 종료 시간
-
         // 해더에 표시할 툴바
         headerToolbar: {
             // left: 'prev,next', // 이전, 다음
@@ -42,10 +61,6 @@ window.onload = async function() {
         locale: 'ko', // 한국어 설정
 
         selectLongPressDelay:300, // 선택 클릭 발동 시간 
-        
-        dateClick: function (info) {
-            alert(info.dateStr);
-        },
 
         eventClick: function (info) {
 
@@ -79,6 +94,10 @@ window.onload = async function() {
             deleteModalBtn.addEventListener('click', () => {
                 localStorage.removeItem(key);
 
+                // 알림창 출력 플래그 변경
+                localStorage.setItem('showNotificationYn', true);                
+                localStorage.setItem('workDivision', false);    
+
                 // 페이지 새로고침
                 location.reload();  
             });            
@@ -91,21 +110,28 @@ window.onload = async function() {
                 const money = document.getElementById('inputMoney').value; // 금액
                 const memo = document.getElementById('memo').value; // 메모
 
-                const saveDataInfo = {
-                    yearMonthDay,
-                    hourMinute,
-                    selectedItem,
-                    money,
-                    memo,
-                };
+                if (money == "") {
+                    showNotification("금액은 필수 입력 값입니다.", "W");
+                    document.getElementById('inputMoney').focus();
+                } else {
+                    const saveDataInfo = {
+                        yearMonthDay,
+                        hourMinute,
+                        selectedItem,
+                        money,
+                        memo,
+                    };
+    
+                    // 로컬 스토리지에 데이터를 JSON 형태로 저장
+                    localStorage.setItem(key, JSON.stringify(saveDataInfo));
 
-                // 로컬 스토리지에 데이터를 JSON 형태로 저장
-                localStorage.setItem(key, JSON.stringify(saveDataInfo));
+                    // 알림창 출력 플래그 변경
+                    localStorage.setItem('showNotificationYn', true);                
+                    localStorage.setItem('workDivision', true);                
 
-                modalWrapper.style.display = 'none';
-
-                // 페이지 새로고침
-                location.reload();                               
+                    // 페이지 새로고침
+                    location.reload();                       
+                }                                         
             }); 
 
         
@@ -140,8 +166,6 @@ window.onload = async function() {
 
     // [캘린더 랜더링]
     calendar.render();
-       
-    //----------------------------------------------------------------------------------------------------------------------------
 
     // 이벤트 추가 함수
     function addEvent(title, start, key) {
@@ -154,34 +178,58 @@ window.onload = async function() {
     }
 
     // 1. 로컬 스토리지에서 모든 데이터 가져오기
-    const allData = Object.entries(localStorage).map(([key, value]) => ({
-        key,
-        value: JSON.parse(value)
+    const allData = Object.entries(localStorage)
+        .filter(([key, value]) => /^\d+$/.test(key)) // 숫자로만 이루어진 키만 필터링
+        .map(([key, value]) => ({
+            key: Number(key),
+            value: JSON.parse(value)
     }));
 
+    // 이번 달 데이터만 달력에 추가
+    // 
     // 2. 달력의 타이틀을 가져옵니다.
-    const calendarTitle = document.querySelector('h2.fc-toolbar-title').textContent;
-
+    // const calendarTitle = document.querySelector('h2.fc-toolbar-title').textContent;
+    //
     // 3. 타이틀에서 년도와 월을 추출합니다.
-    const titleParts = calendarTitle.split(' ');
-    const year = parseInt(titleParts[0].replace('년', ''), 10);
-    const month = parseInt(titleParts[1].replace('월', ''), 10);
-
-    // 4. 해당 월에 해당하는 데이터만 필터링합니다.
-    const filteredData = allData.filter((data) => {
-        const yearMonth = data.value.yearMonthDay.substring(0, 7); // "2023-10" 형식으로 추출
-        const [dataYear, dataMonth] = yearMonth.split('-');
-        return parseInt(dataYear, 10) === year && parseInt(dataMonth, 10) === month;
-    });
-    
+    // const titleParts = calendarTitle.split(' ');
+    // const year = parseInt(titleParts[0].replace('년', ''), 10);
+    // const month = parseInt(titleParts[1].replace('월', ''), 10);
+    //
+    // // 4. 해당 월에 해당하는 데이터만 필터링합니다.
+    // const filteredData = allData.filter((data) => {
+    //     const yearMonth = data.value.yearMonthDay.substring(0, 7); // "2023-10" 형식으로 추출
+    //     const [dataYear, dataMonth] = yearMonth.split('-');
+    //     return parseInt(dataYear, 10) === year && parseInt(dataMonth, 10) === month;
+    // });
     // filteredData 배열을 순환하며 이벤트 추가
-    filteredData.forEach(function (data) {
+    // filteredData.forEach(function (data) {
+    //     var yearMonthDay = data.value.yearMonthDay; // 데이터의 날짜
+    //     var money = data.value.money; // 데이터의 금액
+
+    //     // 이벤트 생성 및 추가
+    //     addEvent(money, yearMonthDay, data.key);
+    // });
+
+    // 데이터 배열을 순환하며 이벤트 추가
+    allData.forEach(function (data) {
         var yearMonthDay = data.value.yearMonthDay; // 데이터의 날짜
         var money = data.value.money; // 데이터의 금액
 
         // 이벤트 생성 및 추가
         addEvent(money, yearMonthDay, data.key);
-    });
+    });    
+
+    // 알림창 출력
+    if (showNotificationYn) {
+        if (workDivision) {
+            showNotification("내역이 수정되었습니다.");
+        } else {
+            showNotification("내역이 삭제되었습니다.");
+        }
+
+        // 알림창 출력 플래그 변경
+        localStorage.setItem('showNotificationYn', false);                  
+    }
 };    
 
 // 기존 화면 요소 비활성화

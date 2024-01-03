@@ -50,13 +50,36 @@ function filterInput(inputElement, maxValue) {
     });
 }
 
+// 알림창 출력 
+function showNotification(message, type) {
+    var notification = document.getElementById('notification');
+    
+    // alert / warning 구분    
+    if (type == "W") {
+        notification.classList.remove("success");
+        notification.classList.add("warning");
+    } else {
+        notification.classList.remove("warning");
+        notification.classList.add("success");
+    }
+
+    notification.textContent = message;
+    notification.style.display = 'block';
+
+    setTimeout(function() {
+      notification.style.display = 'none';
+    }, 5000); // 5초 후에 알림창을 숨김
+}
+
 // 메인화면 데이터 최신화
 function getLocalStorageData() {
     
     // 로컬 스토리지에서 모든 데이터 가져오기
-    const allData = Object.entries(localStorage).map(([key, value]) => ({
-        key,
-        value: JSON.parse(value)
+    const allData = Object.entries(localStorage)
+        .filter(([key, value]) => /^\d+$/.test(key)) // 숫자로만 이루어진 키만 필터링
+        .map(([key, value]) => ({
+            key: Number(key),
+            value: JSON.parse(value)
     }));
 
 
@@ -258,19 +281,28 @@ submitModalBtn.addEventListener('click', () => {
     // 메모
     const memo = document.getElementById('memo').value;
 
-    const saveDataInfo = {
-        yearMonthDay,
-        hourMinute,
-        selectedItem,
-        money,
-        memo,
-    };
+    if (money == "") {
+        showNotification("금액은 필수 입력 값입니다.", "W");
+        document.getElementById('inputMoney').focus();
+    } else {
+        const saveDataInfo = {
+            yearMonthDay,
+            hourMinute,
+            selectedItem,
+            money,
+            memo,
+        };
+    
+        // 로컬 스토리지에 데이터를 JSON 형태로 저장
+        localStorage.setItem(getNextKey(), JSON.stringify(saveDataInfo));
+    
+        // 모달 숨김
+        modalWrapper.style.display = 'none';
+    
+        // 알림창 출력
+        showNotification("내역이 추가되었습니다.");
 
-    // 로컬 스토리지에 데이터를 JSON 형태로 저장
-    localStorage.setItem(getNextKey(), JSON.stringify(saveDataInfo));
-
-    modalWrapper.style.display = 'none';
-
-    // 메인화면 데이터 최신화
-    getLocalStorageData();
-});    
+        // 메인화면 데이터 최신화
+        getLocalStorageData();        
+    }
+});     

@@ -55,3 +55,29 @@ header {
     display: block; /* 이미지 사이 간격 제거 */
     margin: 0 auto; /* 이미지 가운데 정렬 */
 }
+
+/* ========================================================================================================= */
+/*                                              알림창                                                        */
+/* ========================================================================================================= */
+#notification {
+    display: none;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    transform: translate(-50%, -50%);
+    width: 250px; 
+    height: 40px;
+    line-height: 40px; 
+    z-index: 9999;
+}
+
+#notification.warning {
+    background-color: #FF4444; 
+}
+
+#notification.success {
+    background-color: #4CAF50;
+}
