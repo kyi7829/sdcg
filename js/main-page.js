@@ -82,11 +82,6 @@ function getLocalStorageData() {
             value: JSON.parse(value)
     }));
 
-
-    
-    // =====================================================================================================================================
-    //                                                          수정필요
-    // =====================================================================================================================================
     // 데이터의 "money" 값을 정수로 파싱하여 더한 후 다시 형식을 변환하는 함수
     function calculateTotalMoney(data) {
         let totalMoney = 0;
@@ -97,22 +92,32 @@ function getLocalStorageData() {
         }
         return totalMoney;
     }
+
+    // =====================================================================================================================================
     // 이번 달, 이번 주, 오늘의 데이터 필터링
     const today = new Date();
+
+    // month
     const thisMonthData = allData.filter((item) => {
         const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
         return itemDate.getMonth() === today.getMonth();
     });
 
-    // 이번 주의 시작 날짜 (월요일)
+    // week - 이번 주의 시작 날짜 (월요일)
     const thisWeekStart = new Date(today);
     thisWeekStart.setDate(today.getDate() - (today.getDay() + 6) % 7);
-
+    thisWeekStart.setHours(0, 0, 0, 0);
+    
+    const thisWeekEnd = new Date(thisWeekStart);
+    thisWeekEnd.setDate(thisWeekStart.getDate() + 6);
+    thisWeekEnd.setHours(23, 59, 59, 999); 
+    
     const thisWeekData = allData.filter((item) => {
         const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
-        return itemDate >= thisWeekStart;
-    });
+        return itemDate >= thisWeekStart && itemDate <= thisWeekEnd;
+    });    
 
+    // day
     const todayData = allData.filter((item) => {
         const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
         return itemDate.getDate() === today.getDate();
@@ -123,8 +128,6 @@ function getLocalStorageData() {
     document.getElementById('weeklySavings').textContent = calculateTotalMoney(thisWeekData).toLocaleString() + '원';
     document.getElementById('dailySavings').textContent = calculateTotalMoney(todayData).toLocaleString() + '원';
     // =====================================================================================================================================
-
-
 
     // key를 기준으로 내림차순으로 정렬
     allData.sort((a, b) => {
