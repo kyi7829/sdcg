@@ -180,7 +180,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // 현재 시각을 가져와서 표시
         const [datePart, timePart] = getCurrentDateTime();
         document.getElementById('yearMonthDay').textContent = datePart;
-        document.getElementById('hourMinute').textContent = timePart;
+
+        // FIXME
+        document.getElementById('timepicker').value = "08:30 AM";
+        // document.getElementById('hourMinute').textContent = timePart;
 
         // 항목 값 초기화
         document.querySelector('td.white-bg select').selectedIndex = 0; // 항목
@@ -276,7 +279,7 @@ submitModalBtn.addEventListener('click', () => {
     // 날짜
     const yearMonthDay = document.getElementById('yearMonthDay').textContent; 
     // 시간
-    const hourMinute = document.getElementById('hourMinute').textContent;
+    const hourMinute = document.getElementById('timepicker').value;
     // 항목
     const selectedItem = document.querySelector('.white-bg select').value;
     // 금액

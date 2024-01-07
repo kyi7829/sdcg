@@ -6,6 +6,7 @@
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css'/>
     <link rel="stylesheet" href="../css/main-page-common.css">
     <link rel="stylesheet" href="../css/main-page.css">
+    <link rel='stylesheet' type='text/css' href="../css/timepicki.css"/>
     <title>메인화면</title>
 </head>
 <body>
@@ -85,7 +86,10 @@
                                 <tr>
                                     <td class="gray-bg">날짜</td>
                                     <td class="white-bg disable-on-popup" id="yearMonthDay"></td>
-                                    <td class="white-bg disable-on-popup" id="hourMinute"></td>
+                                    <td>
+                                        <input id='timepicker' type='text'name='timepicker'/>
+                                    </td>
+                                    
                                 </tr>
                                 <tr>
                                     <td class="gray-bg">항목</td>
@@ -154,5 +158,13 @@
     <script src="../js/donutChart.js"></script>
     <script src="../js/main-page.js"></script>
     <script src="../js/main-page-common.js"></script>
+
+    <!--timepicki-->
+    <script type='text/javascript'src="../js/jquery.min.js"></script>
+    <script type='text/javascript'src="../js/timepicki.js"></script>
+    <script>
+        $('#timepicker').timepicki();
+    </script>
+    <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>
