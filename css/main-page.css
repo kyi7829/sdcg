@@ -39,6 +39,25 @@
     height: auto; /* 이미지의 높이 자동조절 (비율 유지) */
 }
 
+#donutImage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#donutImage img {
+    width: 180px; /* 이미지의 너비 */
+    height: auto; /* 이미지의 높이 자동조절 (비율 유지) */
+    display: none;
+    margin-bottom: 10px;
+}
+
+#donutImage div {
+    text-align: center;
+}
+
 /* ========================================================================================================= */
 /*                                              모달화면                                                      */
 /* ========================================================================================================= */
@@ -128,8 +147,7 @@
     background-color: #fff;
 }
 
-.gray-bg:nth-child(1),
-.white-bg:nth-child(1) {
+.gray-bg:nth-child(1){
     width: 33.33%;
 }
 

@@ -4,11 +4,15 @@ function getCurrentDateTime() {
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
+    let hours = now.getHours();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12 || 12; // 0시는 12시로 표시
+    const hoursString = String(hours).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
 
     const datePart = `${year}-${month}-${day}`;
-    const timePart = `${hours}:${minutes}`;
+    const timePart = `${hoursString}:${minutes} ${ampm}`;
 
     return [datePart, timePart];
 }
@@ -81,6 +85,13 @@ function getLocalStorageData() {
             key: Number(key),
             value: JSON.parse(value)
     }));
+
+    // 도넛차트 이미지 출력
+    if (allData.length == 0) {
+        document.querySelector('#donutImage img').style.display = 'block';
+    } else {
+        document.querySelector('#donutImage img').style.display = 'none';
+    }
 
     // 데이터의 "money" 값을 정수로 파싱하여 더한 후 다시 형식을 변환하는 함수
     function calculateTotalMoney(data) {
@@ -180,10 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // 현재 시각을 가져와서 표시
         const [datePart, timePart] = getCurrentDateTime();
         document.getElementById('yearMonthDay').textContent = datePart;
-
-        // FIXME
-        document.getElementById('timepicker').value = "08:30 AM";
-        // document.getElementById('hourMinute').textContent = timePart;
+        document.getElementById('timepicker').value = timePart;
+        timeValue = timePart;
 
         // 항목 값 초기화
         document.querySelector('td.white-bg select').selectedIndex = 0; // 항목
@@ -309,6 +318,9 @@ submitModalBtn.addEventListener('click', () => {
         showNotification("내역이 추가되었습니다.");
 
         // 메인화면 데이터 최신화
-        getLocalStorageData();        
+        getLocalStorageData();
+        
+        // 차트 갱신
+        drawChart();
     }
 });     

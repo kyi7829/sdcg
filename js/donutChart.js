@@ -32,6 +32,11 @@ function drawChart() {
         return itemDate.getMonth() === today.getMonth();
     });
 
+    // 데이터가 없을경우 이미지 출력
+    if (thisMonthData.length == 0) {
+        return false;
+    }
+
     // 데이터 배열 처리
     var localData = [];
 
@@ -49,23 +54,6 @@ function drawChart() {
         }
     });
 
-    // localData.forEach(entry => {
-    //     entry[1] = parseString(entry[1]);
-    // });
-
-    console.log(localData);
-
-    var localData2 = [
-        ['Task', 'Hours per Day'],
-        ['Work',     2],
-        ['Eat',      2],
-        ['Commute',  2],
-        ['Watch TV', 2],
-        ['Sleep',    7]
-      ];
-
-    console.log(localData2);
-
     // 차트 생성
     var data = google.visualization.arrayToDataTable(localData);
 
@@ -79,3 +67,4 @@ function drawChart() {
     var chart = new google.visualization.PieChart(donutchart);
     chart.draw(data, options);
 }
+window.drawChart = drawChart;

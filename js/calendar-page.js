@@ -81,6 +81,8 @@ window.onload = async function() {
             // 항목 값 초기화
             document.getElementById('yearMonthDay').textContent = dataInfo.yearMonthDay; // 날짜
             document.getElementById('timepicker').value = dataInfo.hourMinute; // 시간  
+            timeValue = dataInfo.hourMinute;
+
             document.querySelector('td.white-bg select').value = dataInfo.selectedItem; // 항목
             document.getElementById('inputMoney').value = dataInfo.money; // 금액
             document.getElementById('memo').value = dataInfo.memo; // 메모
@@ -105,7 +107,7 @@ window.onload = async function() {
             // 저장버튼
             submitModalBtn.addEventListener('click', () => {
                 const yearMonthDay = document.getElementById('yearMonthDay').textContent; // 날짜
-                const hourMinute = document.getElementById('timepicker').textContent; // 시간
+                const hourMinute = document.getElementById('timepicker').value; // 시간                
                 const selectedItem = document.querySelector('td.white-bg select').value; // 항목
                 const money = document.getElementById('inputMoney').value; // 금액
                 const memo = document.getElementById('memo').value; // 메모

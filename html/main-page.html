@@ -63,9 +63,13 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- 이번 달 항목별 통계 -->
-        <!-- <div id="donutchart" style="width: 1250px; height: 1000px;"></div>  -->
+        
+        <!-- 도넛차트 통계 -->
+        <div id="donutImage">
+            <img src="../images/no-results.png" alt="데이터 없음">
+            <div>절약 내역을 추가 해보세요.</div>
+        </div>
+        
         <div id="donutchart"></div>
 
         <!-- 절약내역 추가 버튼 -->
@@ -86,10 +90,9 @@
                                 <tr>
                                     <td class="gray-bg">날짜</td>
                                     <td class="white-bg disable-on-popup" id="yearMonthDay"></td>
-                                    <td>
+                                    <td class="white-bg disable-on-popup">
                                         <input id='timepicker' type='text'name='timepicker'/>
                                     </td>
-                                    
                                 </tr>
                                 <tr>
                                     <td class="gray-bg">항목</td>
@@ -163,6 +166,7 @@
     <script type='text/javascript'src="../js/jquery.min.js"></script>
     <script type='text/javascript'src="../js/timepicki.js"></script>
     <script>
+        let timeValue;
         $('#timepicker').timepicki();
     </script>
     <script src="../js/bootstrap.min.js"></script>

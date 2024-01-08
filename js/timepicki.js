@@ -380,16 +380,14 @@
 				};
 				first_input.on('keydown', first_input_exit_handler);
 
-                // 값 초기화
-                // $(document).ready(function() {
-                //     $('.ti_tx input').val("08");
-                //     $('.mi_tx input').val("30");
-                //     $('.mer_tx input').val("AM");
-                // });
-
-                $('.ti_tx input').val("08");
-                $('.mi_tx input').val("30");
-                $('.mer_tx input').val("AM");                
+				// 값 초기화
+				const times = timeValue.split(' ');
+				const [hours, minutes] = times[0].split(':');
+				const meridian = times[1];
+				
+				$('.ti_tx input').val(hours);
+				$('.mi_tx input').val(minutes);
+				$('.mer_tx input').val(meridian);           
 			}
 
 			function close_timepicki() {
