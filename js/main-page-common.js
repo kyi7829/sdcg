@@ -3,21 +3,25 @@ const btnCalendar = document.getElementById('btnCalendar');
 const btnUserInfo = document.getElementById('btnUserInfo');
 const btnSettings = document.getElementById('btnSettings');
 
+// 현재 페이지로 이동 제한
+function movePage (targetUrl) {
+    if (!window.location.href.includes(targetUrl.slice(2, targetUrl.length))) {
+        window.location.href = targetUrl;
+    } 
+}
+
 btnHome.addEventListener('click', function() {
-    window.location.href = '../html/main-page.html';
+    movePage('../html/main-page.html');
 });
 
 btnCalendar.addEventListener('click', function() {
-
-    // window.open('../html/calendar-page.html', 'test');
-
-    window.location.href = '../html/calendar-page.html';
+    movePage('../html/calendar-page.html');
 });
 
 btnUserInfo.addEventListener('click', function() {
-    
+    movePage('../html/userInfo-page.html');
 });
 
 btnSettings.addEventListener('click', function() {
-    
+    movePage('../html/settings-page.html');
 });

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../css/main-page-common.css">
+    <link rel='stylesheet' href="../css/settings-page.css"/>
+    <title>설정</title>
+</head>
+<body>
+    
+    <!-- header (20%)-->
+    <header>
+        <h2>
+            샀다치고
+        </h2>
+    </header>
+
+    <!-- body (60%)-->
+    <div class="main-body">
+        
+        <!-- 알림창 -->
+        <div id="notification"></div>
+
+        <div class="section">
+            <h2>기본 설정</h2>
+            <label class="radio-label">부팅시 가이드 출력</label>
+            <input type="radio" name="bootGuide" id="bootGuideOn" checked>
+            <label for="bootGuideOn">ON</label>
+            <input type="radio" name="bootGuide" id="bootGuideOff">
+            <label for="bootGuideOff">OFF</label>
+        </div>
+    
+        <div class="section">
+            <h2>초기화</h2>
+            <button onclick="openConfirmModal('D')">내역 전부 삭제</button>
+            <button onclick="openConfirmModal('R')">어플리케이션 초기화</button>
+        </div>
+
+        <!-- confirm 모달 -->
+        <div class="modal-wrapper" id="modalWrapper">
+            <div class="modal">
+                <!-- 모달 내용 -->
+                <div class="modal-content">
+                    <h2 id="confirm-content"></h2>
+
+                    <div class="button-container disable-on-popup">
+                        <button id="closeModalBtn" class="gray-button">취소</button>
+                        <button id="submitModalBtn" class="blue-button">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>커피 한잔 후원</h2>
+            <button>커피 사주기</button>
+        </div>        
+
+    </div>
+
+    <!-- banner ad (10%)-->
+    <div class="banner">
+    </div>
+
+    <!-- banner btn (10%)-->
+    <div class="banner-button">
+        <button id="btnCalendar"><img src="../images/calendar1.png" alt="Button 1"></button>
+        <button id="btnHome"><img src="../images/home1.png" alt="Button 2"></button>
+        <button id="btnUserInfo"><img src="../images/user1.png" alt="Button 3"></button>
+        <button id="btnSettings"><img src="../images/gear1.png" alt="Button 4"></button>
+    </div>
+
+    <script src="../js/main-page-common.js"></script>
+    <script src="../js/settings-page.js"></script>
+</body>
+</html>
