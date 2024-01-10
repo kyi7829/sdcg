@@ -80,25 +80,27 @@ function getLocalStorageData() {
     
     // 로컬 스토리지에서 모든 데이터 가져오기
     const allData = Object.entries(localStorage)
-        .filter(([key, value]) => /^\d+$/.test(key)) // 숫자로만 이루어진 키만 필터링
+        .filter(([key, value]) => key.startsWith('sdcg-') && /^\d+$/.test(key.slice(5))) // sdcg-로 시작하면서 숫자로만 이루어진 키만 필터링
         .map(([key, value]) => ({
-            key: Number(key),
-            value: JSON.parse(value)
-    }));
+            numericKey: Number(key.slice(5)),
+            data: JSON.parse(value)
+        }));
 
     // 도넛차트 이미지 출력
     if (allData.length == 0) {
         document.querySelector('#donutImage img').style.display = 'block';
+        document.querySelector('#donutImage div').style.display = 'block';        
     } else {
         document.querySelector('#donutImage img').style.display = 'none';
-    }
+        document.querySelector('#donutImage div').style.display = 'none';
+    } 
 
     // 데이터의 "money" 값을 정수로 파싱하여 더한 후 다시 형식을 변환하는 함수
     function calculateTotalMoney(data) {
         let totalMoney = 0;
         for (const item of data) {
             // "money" 값에서 콤마(,)와 "원" 문자를 모두 제거한 후 정수로 파싱
-            const money = parseInt(item.value.money.replace(/,/g, '').replace('원', ''), 10);
+            const money = parseInt(item.data.money.replace(/,/g, '').replace('원', ''), 10);
             totalMoney += money;
         }
         return totalMoney;
@@ -110,7 +112,7 @@ function getLocalStorageData() {
 
     // month
     const thisMonthData = allData.filter((item) => {
-        const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
+        const itemDate = new Date(`${item.data.yearMonthDay} ${item.data.hourMinute}`);
         return itemDate.getMonth() === today.getMonth();
     });
 
@@ -124,13 +126,13 @@ function getLocalStorageData() {
     thisWeekEnd.setHours(23, 59, 59, 999); 
     
     const thisWeekData = allData.filter((item) => {
-        const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
+        const itemDate = new Date(`${item.data.yearMonthDay} ${item.data.hourMinute}`);
         return itemDate >= thisWeekStart && itemDate <= thisWeekEnd;
     });    
 
     // day
     const todayData = allData.filter((item) => {
-        const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
+        const itemDate = new Date(`${item.data.yearMonthDay} ${item.data.hourMinute}`);
         return itemDate.getDate() === today.getDate();
     });
 
@@ -142,41 +144,64 @@ function getLocalStorageData() {
 
     // key를 기준으로 내림차순으로 정렬
     allData.sort((a, b) => {
-        const keyA = parseInt(a.key, 10);
-        const keyB = parseInt(b.key, 10);
-
+        const keyA = a.key ? parseInt(a.key.replace('sdcg-', ''), 10) : 0;
+        const keyB = b.key ? parseInt(b.key.replace('sdcg-', ''), 10) : 0;
+    
         return keyB - keyA;
     });
 
     // 최근 3개의 데이터 선택
     const recentData = allData.slice(0, 3);
 
-    recentData.forEach((data, index) => {
+    recentData.forEach((datas, index) => {
         const dateElement = document.getElementById(`recentSavingsDate${index + 1}`);
         const itemElement = document.getElementById(`recentSavingsItem${index + 1}`);
         const moneyElement = document.getElementById(`recentSavingsMoney${index + 1}`);
         
         if (dateElement && itemElement && moneyElement) {
-            dateElement.textContent = data.value.yearMonthDay + ' ' + data.value.hourMinute;
-            itemElement.textContent = data.value.selectedItem;
-            moneyElement.textContent = data.value.money;
+            dateElement.textContent = datas.data.yearMonthDay + ' ' + datas.data.hourMinute;
+            itemElement.textContent = datas.data.selectedItem;
+            moneyElement.textContent = datas.data.money;
         }
     });    
 }
 
 // 저장할 데이터의 신규키 채번
 function getNextKey() {
+    const prefix = 'sdcg-';
+
     // Local Storage에서 모든 데이터의 key 가져오기
     const allKeys = Object.keys(localStorage);
 
-    // key가 숫자인 경우만 필터링 
-    const numericKeys = allKeys.filter((key) => !isNaN(Number(key)));
+    // prefix로 시작하는 key만 필터링
+    const matchingKeys = allKeys.filter((key) => key.startsWith(prefix));
 
-    // numericKeys 배열에서 최대값 + 1
-    return Math.max(...numericKeys.map(Number), 0) + 1;
+    if (matchingKeys.length === 0) {
+        // prefix로 시작하는 키가 하나도 없다면 sdcg-1 반환
+        return `${prefix}1`;
+    }
+
+    // matchingKeys 배열에서 최대값 추출
+    const maxNumericKey = matchingKeys.reduce((max, key) => {
+        const match = key.match(/^sdcg-(\d+)$/);
+        return match ? Math.max(max, parseInt(match[1], 10)) : max;
+    }, 0);
+
+    // 최대값 + 1 반환
+    return `${prefix}${maxNumericKey + 1}`;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    // 가이드 출력 여부 확인
+    if (localStorage.getItem('sdcg-lastPage') == 'index') {
+        localStorage.removeItem('sdcg-lastPage');
+
+        if (localStorage.getItem('sdcg-showGuideYn') == 'Y') {
+            // FIXME 모달창으로 변경 예정
+            alert("가이드 모달창을 띄울 예정");
+        }
+    }
 
     // 메인화면 데이터 최신화
     getLocalStorageData();    

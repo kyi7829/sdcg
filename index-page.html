@@ -22,7 +22,14 @@
         const circle = document.querySelector('.circle');
 
         // 애니메이션 완료 시 페이지 이동
-        circle.addEventListener('animationiteration', () => {
+        circle.addEventListener('animationiteration', () => {            
+
+            // 앱 최초실행 또는 초기화 후 실행시 가이드 출력
+            if (localStorage.getItem('sdcg-showGuideYn') === null) {
+                localStorage.setItem('sdcg-showGuideYn', 'Y');
+            }
+
+            localStorage.setItem('sdcg-lastPage', 'index');
             window.location.href = 'html/main-page.html';
         });
     </script>

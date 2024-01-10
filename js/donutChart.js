@@ -17,18 +17,19 @@ function parseString(moneyString) {
 // 차트 그리기
 function drawChart() {
 
-    // 로컬 스토리지에서 이번 달 데이터 추출
+    // 로컬 스토리지에서 모든 데이터 가져오기
     const allData = Object.entries(localStorage)
-        .filter(([key, value]) => /^\d+$/.test(key)) // 숫자로만 이루어진 키만 필터링
+        .filter(([key, value]) => key.startsWith('sdcg-') && /^\d+$/.test(key.slice(5))) 
         .map(([key, value]) => ({
-            key: Number(key),
-            value: JSON.parse(value)
-    }));
+            numericKey: Number(key.slice(5)),
+            data: JSON.parse(value)
+        }));
 
     const today = new Date();
 
+    // 이번달 데이터 필터
     const thisMonthData = allData.filter((item) => {
-        const itemDate = new Date(`${item.value.yearMonthDay} ${item.value.hourMinute}`);
+        const itemDate = new Date(`${item.data.yearMonthDay} ${item.data.hourMinute}`);
         return itemDate.getMonth() === today.getMonth();
     });
 
@@ -45,12 +46,12 @@ function drawChart() {
 
     thisMonthData.forEach(item => {
         
-        var existingItemIndex = localData.findIndex(entry => entry[0] === item.value.selectedItem);
+        var existingItemIndex = localData.findIndex(entry => entry[0] === item.data.selectedItem);
 
         if (existingItemIndex !== -1) {
-            localData[existingItemIndex][1] += parseMoney(item.value.money);
+            localData[existingItemIndex][1] += parseMoney(item.data.money);
         } else {
-            localData.push([item.value.selectedItem, parseMoney(item.value.money)]);
+            localData.push([item.data.selectedItem, parseMoney(item.data.money)]);
         }
     });
 

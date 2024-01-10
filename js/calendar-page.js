@@ -1,6 +1,6 @@
 // 알림창 출력 플래그 
-let showNotificationYn = localStorage.getItem('showNotificationYn') === 'true';
-let workDivision = localStorage.getItem('workDivision') === 'true';
+let showNotificationYn = localStorage.getItem('sdcg-showNotificationYn') === 'true';
+let workDivision = localStorage.getItem('sdcg-workDivision') === 'true';
 
 // 알림창 출력 
 function showNotification(message, type) {
@@ -97,8 +97,8 @@ window.onload = async function() {
                 localStorage.removeItem(key);
 
                 // 알림창 출력 플래그 변경
-                localStorage.setItem('showNotificationYn', true);                
-                localStorage.setItem('workDivision', false);    
+                localStorage.setItem('sdcg-showNotificationYn', true);                
+                localStorage.setItem('sdcg-workDivision', false);    
 
                 // 페이지 새로고침
                 location.reload();  
@@ -128,8 +128,8 @@ window.onload = async function() {
                     localStorage.setItem(key, JSON.stringify(saveDataInfo));
 
                     // 알림창 출력 플래그 변경
-                    localStorage.setItem('showNotificationYn', true);                
-                    localStorage.setItem('workDivision', true);                
+                    localStorage.setItem('sdcg-showNotificationYn', true);                
+                    localStorage.setItem('sdcg-workDivision', true);                
 
                     // 페이지 새로고침
                     location.reload();                       
@@ -179,46 +179,21 @@ window.onload = async function() {
         calendar.addEvent(eventData);
     }
 
-    // 1. 로컬 스토리지에서 모든 데이터 가져오기
+    // 1. 로컬 스토리지에서 모든 데이터 가져오기    
     const allData = Object.entries(localStorage)
-        .filter(([key, value]) => /^\d+$/.test(key)) // 숫자로만 이루어진 키만 필터링
+        .filter(([key, value]) => key.startsWith('sdcg-') && /^\d+$/.test(key.slice(5))) 
         .map(([key, value]) => ({
-            key: Number(key),
-            value: JSON.parse(value)
-    }));
-
-    // 이번 달 데이터만 달력에 추가
-    // 
-    // 2. 달력의 타이틀을 가져옵니다.
-    // const calendarTitle = document.querySelector('h2.fc-toolbar-title').textContent;
-    //
-    // 3. 타이틀에서 년도와 월을 추출합니다.
-    // const titleParts = calendarTitle.split(' ');
-    // const year = parseInt(titleParts[0].replace('년', ''), 10);
-    // const month = parseInt(titleParts[1].replace('월', ''), 10);
-    //
-    // // 4. 해당 월에 해당하는 데이터만 필터링합니다.
-    // const filteredData = allData.filter((data) => {
-    //     const yearMonth = data.value.yearMonthDay.substring(0, 7); // "2023-10" 형식으로 추출
-    //     const [dataYear, dataMonth] = yearMonth.split('-');
-    //     return parseInt(dataYear, 10) === year && parseInt(dataMonth, 10) === month;
-    // });
-    // filteredData 배열을 순환하며 이벤트 추가
-    // filteredData.forEach(function (data) {
-    //     var yearMonthDay = data.value.yearMonthDay; // 데이터의 날짜
-    //     var money = data.value.money; // 데이터의 금액
-
-    //     // 이벤트 생성 및 추가
-    //     addEvent(money, yearMonthDay, data.key);
-    // });
+            key: key,
+            data: JSON.parse(value)
+        }));
 
     // 데이터 배열을 순환하며 이벤트 추가
-    allData.forEach(function (data) {
-        var yearMonthDay = data.value.yearMonthDay; // 데이터의 날짜
-        var money = data.value.money; // 데이터의 금액
+    allData.forEach(function (datas) {
+        var yearMonthDay = datas.data.yearMonthDay; // 데이터의 날짜
+        var money = datas.data.money; // 데이터의 금액
 
         // 이벤트 생성 및 추가
-        addEvent(money, yearMonthDay, data.key);
+        addEvent(money, yearMonthDay, datas.key);
     });    
 
     // 알림창 출력
@@ -230,7 +205,7 @@ window.onload = async function() {
         }
 
         // 알림창 출력 플래그 변경
-        localStorage.setItem('showNotificationYn', false);                  
+        localStorage.setItem('sdcg-showNotificationYn', false);                  
     }
 };    
 
