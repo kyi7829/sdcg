@@ -48,7 +48,7 @@
 }
 
 #donutImage img {
-    width: 180px; /* 이미지의 너비 */
+    width: 130px; /* 이미지의 너비 */
     height: auto; /* 이미지의 높이 자동조절 (비율 유지) */
     display: none;
     margin-bottom: 10px;

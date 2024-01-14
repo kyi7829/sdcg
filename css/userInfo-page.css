@@ -1,0 +1,31 @@
+.section {
+    margin-bottom: 40px;
+}
+
+.radio-label {
+    margin-right: 10px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;  
+    margin-bottom: 10px;           
+}
+
+#customConfirmModal {
+    display: none;
+}
+
+#coffee img{
+    width: 100%;    
+    height: auto;    
+}
+
+/* ========================================================================================================= */
+/*                                              통계차트                                                      */
+/* ========================================================================================================= */
+#barchart {
+    width: 100%; 
+    height: auto; 
+}

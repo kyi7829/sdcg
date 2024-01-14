@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="../css/main-page-common.css">
+    <link rel="stylesheet" href="../css/userInfo-page.css">
     <title>사용자 정보</title>
 </head>
 <body>
@@ -17,7 +18,23 @@
 
     <!-- body (60%)-->
     <div class="main-body">
-        사용자 정보 시작
+        
+        <div class="section">
+            <h2>목표 설정</h2>
+                        
+            <div id="barchart"></div>
+        </div>
+
+        <div class="section">
+            <h2>기간별 절약금액 조회</h2>
+            
+        </div>
+    
+        <div class="section">
+            <h2>카카오톡 공유하기</h2>
+
+        </div> 
+
     </div>
 
     <!-- banner ad (10%)-->
@@ -32,7 +49,11 @@
         <button id="btnSettings"><img src="../images/gear1.png" alt="Button 4"></button>
     </div>
 
-
     <script src="../js/main-page-common.js"></script>
+    <script src="../js/userInfo-page.js"></script>
+
+    <!-- 차트 -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="../js/barChart.js"></script>
 </body>
 </html>
