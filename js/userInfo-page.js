@@ -77,9 +77,13 @@ function showNotification(message, type) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // 목표 설정 
-    
-
+    // 로컬 스토리지에서 모든 데이터 가져오기
+    const allData = Object.entries(localStorage)
+        .filter(([key, value]) => key.startsWith('sdcg-') && /^\d+$/.test(key.slice(5))) // sdcg-로 시작하면서 숫자로만 이루어진 키만 필터링
+        .map(([key, value]) => ({
+            numericKey: Number(key.slice(5)),
+            data: JSON.parse(value)
+        })); 
 
     const modalWrapper = document.getElementById('modalWrapper');
     const calendarWrapper = document.getElementById('calendarWrapper');
@@ -124,7 +128,23 @@ document.addEventListener('DOMContentLoaded', function () {
         
         dateClick: function (info) {
             // 날짜 수정
-            document.getElementById('yearMonthDay').textContent = info.dateStr;
+            document.getElementById('yearMonthDayText').textContent = info.dateStr;
+
+            // 누적금액 계산
+            
+            // 시작일
+            const baseDate = new Date(info.dateStr);
+
+            // 시작일 이전의 데이터 필터링 및 계산
+            const totalMoneyBeforeBaseDate = allData
+                .filter(entry => new Date(entry.data.yearMonthDay) <= baseDate)
+                .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
+
+            // 시작일 이전의 모든 데이터의 money 값 합산 출력
+            console.log(totalMoneyBeforeBaseDate);
+            
+            // 누적금액 수정
+            document.getElementById('cumulativeAmount').textContent = parseFloat(totalMoneyBeforeBaseDate).toLocaleString() + '원';
 
             // 캘린더 닫기
             document.getElementById('calendarWrapper').style.display = 'none';  
@@ -138,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();      
 
     // 달력 열기
-    yearMonthDay.addEventListener('click', () => {
+    yearMonthDayImg.addEventListener('click', () => {
         calendarWrapper.style.display = 'flex';
 
         // 달력 초기화

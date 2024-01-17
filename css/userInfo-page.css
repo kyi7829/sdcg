@@ -141,6 +141,25 @@ button {
     background-color: #ccc; /* 헤더 색상 설정 */
 }
 
+#yearMonthDay {
+    display: flex;
+    border-top: 0;
+    border-left: 0;
+    border-bottom: 0;    
+}
+
+#yearMonthDay p {
+    width: 180px;
+    height: auto;
+    margin: 0;
+}
+
+#yearMonthDay img {
+    float: right;
+    width: auto;
+    height: 23px;
+}
+
 /* ========================================================================================================= */
 /*                                              모달-달력                                                      */
 /* ========================================================================================================= */
