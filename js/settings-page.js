@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const allKeys = Object.keys(localStorage);
 
             // prefix로 시작하는 key만 필터링
-            const matchingKeys = allKeys.filter((key) => key.startsWith("sdcg-"));            
+            const matchingKeys = allKeys.filter((key) => key.startsWith('sdcg-') && /^\d+$/.test(key.slice(5)));   
 
             matchingKeys.forEach((key) => {
                 localStorage.removeItem(key);

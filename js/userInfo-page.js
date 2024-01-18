@@ -1,20 +1,14 @@
-// 현재 시각을 가져오는 함수
-function getCurrentDateTime() {
+// 목표설정 DATA KEY
+const dataKey = "sdcg-goalKey";
+
+// 오늘 날짜를 가져오는 함수
+window.getCurrentDate = function() {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    let hours = now.getHours();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
 
-    hours = hours % 12 || 12; // 0시는 12시로 표시
-    const hoursString = String(hours).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const datePart = `${year}-${month}-${day}`;
-    const timePart = `${hoursString}:${minutes} ${ampm}`;
-
-    return [datePart, timePart];
+    return `${year}-${month}-${day}`;
 }
 
 // 기존 화면 요소 비활성화
@@ -75,6 +69,17 @@ function showNotification(message, type) {
     }, 5000); // 5초 후에 알림창을 숨김
 }
 
+// 누적금액 계산
+window.getCumulativeAmountFromBaseDate = function(allData, baseDate) {
+
+    // 기준일 이전의 데이터 필터링 및 계산
+    const totalMoneyBeforeBaseDate = allData
+        .filter(entry => new Date(entry.data.yearMonthDay) >= new Date(baseDate))
+        .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
+
+    return parseFloat(totalMoneyBeforeBaseDate).toLocaleString() + '원';
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // 로컬 스토리지에서 모든 데이터 가져오기
@@ -90,12 +95,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 모달 열기
     openModalBtn.addEventListener('click', () => {
+        // 목표설정 데이터
+        const goalData = JSON.parse(localStorage.getItem(dataKey));
+
+        // 오늘일자
+        const today = getCurrentDate(); 
+
+        // dataKey로 INSERT/UPDATE 구분
+        if (goalData == null ) { // INSERT                        
+            // 시작일
+            document.getElementById('yearMonthDayText').textContent = today;
+            // 누적금액
+            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, today);
+        } else { // UPDATE
+            // 목표
+            document.getElementById('inputGoal').value = goalData.inputGoal;
+            // 목표금액
+            document.getElementById('inputGoalMoney').value = goalData.inputGoalMoney;
+            // 시작일
+            document.getElementById('yearMonthDayText').textContent = goalData.yearMonthDayText;
+            // 누적금액
+            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, today);      
+        }
+
         modalWrapper.style.display = 'flex';
-        
-        // 현재 시각을 가져와서 표시
-
-        // 항목 값 초기화
-
     });
 
     // 모달 닫기
@@ -130,21 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // 날짜 수정
             document.getElementById('yearMonthDayText').textContent = info.dateStr;
 
-            // 누적금액 계산
-            
-            // 시작일
-            const baseDate = new Date(info.dateStr);
-
-            // 시작일 이전의 데이터 필터링 및 계산
-            const totalMoneyBeforeBaseDate = allData
-                .filter(entry => new Date(entry.data.yearMonthDay) <= baseDate)
-                .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
-
-            // 시작일 이전의 모든 데이터의 money 값 합산 출력
-            console.log(totalMoneyBeforeBaseDate);
-            
             // 누적금액 수정
-            document.getElementById('cumulativeAmount').textContent = parseFloat(totalMoneyBeforeBaseDate).toLocaleString() + '원';
+            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, info.dateStr);
 
             // 캘린더 닫기
             document.getElementById('calendarWrapper').style.display = 'none';  
@@ -197,4 +207,42 @@ document.addEventListener('DOMContentLoaded', function () {
 // 등록
 submitModalBtn.addEventListener('click', () => {
 
+    // 목표
+    const inputGoal = document.getElementById('inputGoal').value; 
+    // 목표금액
+    const inputGoalMoney = document.getElementById('inputGoalMoney').value;
+    // 시작일
+    const yearMonthDayText = document.getElementById('yearMonthDayText').textContent;
+    // 누적금액
+    const cumulativeAmount = document.getElementById('cumulativeAmount').textContent;
+
+    if (inputGoal == "") {
+        showNotification("목표를 입력해주세요.", "W");
+        document.getElementById('inputGoal').focus();
+    } else if (inputGoalMoney == "") {
+        showNotification("목표금액을 입력해주세요.", "W");
+        document.getElementById('inputGoalMoney').focus();
+    } else if (yearMonthDayText == "") {
+        showNotification("시작일을 선택해주세요.", "W");
+        document.getElementById('yearMonthDayImg').click();
+    } else {
+        const goalDataInfo = {
+            inputGoal,
+            inputGoalMoney,
+            yearMonthDayText,
+            cumulativeAmount
+        };
+    
+        // 로컬 스토리지에 데이터를 JSON 형태로 저장
+        localStorage.setItem(dataKey, JSON.stringify(goalDataInfo));
+    
+        // 모달 숨김
+        modalWrapper.style.display = 'none';
+    
+        // 알림창 출력
+        showNotification("목표가 추가되었습니다.");
+        
+        // 차트 갱신
+        drawBarChart();
+    }    
 });     

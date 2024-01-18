@@ -14,12 +14,14 @@ header {
     text-align: center;
     padding: 20px 0;
     height: 10%;
+    position: relative; 
 }
 
 /* body (60%) */
 .main-body {
     padding: 20px;
     height: 60%;
+    overflow-y: auto;
 }
 
 /* banner ad (10%) */
@@ -28,6 +30,7 @@ header {
     text-align: center;
     padding: 10px 0;
     height: 10%;
+    position: relative; 
 }
 
 /* banner btn (10%) */
@@ -38,6 +41,7 @@ header {
     padding-top: 10px;
     height: 10%;
     display: flex;
+    position: relative; 
 }
 
 .banner-button button {
