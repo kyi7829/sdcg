@@ -1,6 +1,12 @@
 // 목표설정 DATA KEY
 const dataKey = "sdcg-goalKey";
 
+// 날짜선택 class
+const dateSearchImgs = document.querySelectorAll('.dateSearchImg');
+
+// 날짜선택 분기변수
+let dateSearchType;
+
 // 오늘 날짜를 가져오는 함수
 window.getCurrentDate = function() {
     const now = new Date();
@@ -31,6 +37,29 @@ function enableElements() {
         });
     }, 100); // 0.1초(100밀리초) 딜레이
 }
+
+// 이벤트 핸들러 함수 정의
+const openCalendar = (clickedImg) => {
+    calendarWrapper.style.display = 'flex';
+
+    // 달력 초기화
+    document.querySelector(".fc-next-button.fc-button.fc-button-primary").click();
+    document.querySelector(".fc-today-button.fc-button.fc-button-primary").click();
+
+    // 기존 항목 클릭 비활성화
+    disableElements();
+
+    // 분기변수 설정
+    dateSearchType = clickedImg;
+};
+
+// 각 이미지에 이벤트 추가
+dateSearchImgs.forEach(img => {
+    img.addEventListener('click', () => {
+        // 클릭된 이미지의 id를 전달하여 openCalendar 함수 실행
+        openCalendar(img.id);
+    });
+});
 
 // 금액 inputFilter 적용
 function filterInput(inputElement, maxValue) {
@@ -150,11 +179,39 @@ document.addEventListener('DOMContentLoaded', function () {
         selectLongPressDelay:300, // 선택 클릭 발동 시간 
         
         dateClick: function (info) {
-            // 날짜 수정
-            document.getElementById('yearMonthDayText').textContent = info.dateStr;
 
-            // 누적금액 수정
-            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, info.dateStr);
+            // dateSearchImgs별 분기점
+            switch (dateSearchType) {
+                case 'yearMonthDayImg':
+                    // 날짜 수정
+                    document.getElementById('yearMonthDayText').textContent = info.dateStr;
+
+                    // 누적금액 수정
+                    document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, info.dateStr);
+
+                    break;
+
+                case 'startDateImg':
+                    // 정합성검사 추가
+
+                    // 값 설정
+
+                    // 시작일자와 종료일자 둘다 있을경우 절약금액 표시
+
+                    break;
+
+                case 'endDateImg':
+                    // 정합성검사 추가
+
+                    // 값 설정
+
+                    // 시작일자와 종료일자 둘다 있을경우 절약금액 표시
+
+                    break;
+
+                default:
+                    break;
+            }
 
             // 캘린더 닫기
             document.getElementById('calendarWrapper').style.display = 'none';  
@@ -167,18 +224,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // [캘린더 랜더링]
     calendar.render();      
 
-    // 달력 열기
-    yearMonthDayImg.addEventListener('click', () => {
-        calendarWrapper.style.display = 'flex';
-
-        // 달력 초기화
-        document.querySelector(".fc-next-button.fc-button.fc-button-primary").click(); // css 충돌 방지 버튼 클릭
-        document.querySelector(".fc-today-button.fc-button.fc-button-primary").click(); // 오늘 일자로 이동
-
-        // 기존 항목 클릭 비활성화
-        disableElements();
-    });  
-    
     // 금액
     const inputGoalMoney = document.getElementById('inputGoalMoney');
     filterInput(inputGoalMoney, 999999999999);

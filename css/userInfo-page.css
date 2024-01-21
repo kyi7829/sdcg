@@ -160,6 +160,39 @@ button {
     height: 23px;
 }
 
+/* 날짜검색 */
+.dateSearch {
+    display: flex;
+    align-items: center; /* 아이템들을 세로 가운데 정렬 */
+}
+
+.dateSearch input {
+    width: 50%;
+    padding: 5px; /* 내부 여백 추가 */
+    box-sizing: border-box; /* 입력 필드의 크기를 컨텐츠와 패딩으로 계산하도록 설정 */
+    pointer-events: none;
+}
+
+.dateSearch img {
+    float: right;
+    width: auto;
+    height: 23px;    
+    margin: 0 5px; /* 이미지 사이의 간격 조절 */
+}
+
+.dateSearch span {
+    margin: 0 5px; /* 텍스트(~)의 양 옆 간격 조절 */
+}
+
+/* 둘째 줄의 입력박스 */
+.dateSearch #savingAmount {
+    width: 100%;
+    padding: 5px; /* 내부 여백 추가 */
+    margin-top: 5px;
+    box-sizing: border-box; /* 입력 필드의 크기를 컨텐츠와 패딩으로 계산하도록 설정 */
+    pointer-events: none;
+}
+
 /* ========================================================================================================= */
 /*                                              모달-달력                                                      */
 /* ========================================================================================================= */
