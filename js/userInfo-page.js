@@ -112,13 +112,7 @@ function copyLink() {
     }  
 
     // Clipboard API를 사용하여 텍스트를 클립보드에 복사
-    navigator.clipboard.writeText(linkUrl)
-        .then(() => {
-            showNotification("클립보드 복사 성공", "S");
-        })
-        .catch((err) => {
-            showNotification("클립보드 복사 실패", "W");
-        });
+    navigator.clipboard.writeText(linkUrl);
 }
 
 // 누적금액 계산
