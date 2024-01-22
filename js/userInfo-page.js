@@ -106,9 +106,9 @@ function copyLink() {
     // FIXME -------------------------------------------------------------------------------------------------------------->
     // 앱 출시 후 URL 변경 필요
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        linkUrl == 'ios TEST'
+        linkUrl = 'ios TEST'
     } else {
-        linkUrl == 'android TEST'
+        linkUrl = 'android TEST'
     }  
 
     // Clipboard API를 사용하여 텍스트를 클립보드에 복사
