@@ -98,6 +98,29 @@ function showNotification(message, type) {
     }, 5000); // 5초 후에 알림창을 숨김
 }
 
+// 다운로드 링크 복사
+function copyLink() {
+
+    let linkUrl;
+
+    // FIXME -------------------------------------------------------------------------------------------------------------->
+    // 앱 출시 후 URL 변경 필요
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        linkUrl == 'ios TEST'
+    } else {
+        linkUrl == 'android TEST'
+    }  
+
+    // Clipboard API를 사용하여 텍스트를 클립보드에 복사
+    navigator.clipboard.writeText(linkUrl)
+        .then(() => {
+            showNotification("클립보드 복사 성공", "S");
+        })
+        .catch((err) => {
+            showNotification("클립보드 복사 실패", "W");
+        });
+}
+
 // 누적금액 계산
 window.getCumulativeAmountFromBaseDate = function(allData, baseDate) {
 
@@ -107,6 +130,20 @@ window.getCumulativeAmountFromBaseDate = function(allData, baseDate) {
         .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
 
     return parseFloat(totalMoneyBeforeBaseDate).toLocaleString() + '원';
+}
+
+// 누적금액 날짜조회
+window.getCumulativeAmountFromDate = function(allData, startDate, endDate) {
+
+    // 시작일과 종료일 사이의 데이터 필터링 및 계산
+    const totalMoneyBetweenDates = allData
+        .filter(entry => {
+            const entryDate = new Date(entry.data.yearMonthDay);
+            return entryDate >= new Date(startDate) && entryDate <= new Date(endDate);
+        })
+        .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
+
+    return parseFloat(totalMoneyBetweenDates).toLocaleString() + '원';
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -180,37 +217,41 @@ document.addEventListener('DOMContentLoaded', function () {
         
         dateClick: function (info) {
 
-            // dateSearchImgs별 분기점
-            switch (dateSearchType) {
-                case 'yearMonthDayImg':
-                    // 날짜 수정
-                    document.getElementById('yearMonthDayText').textContent = info.dateStr;
+            if (dateSearchType == 'yearMonthDayImg') {
+                // 날짜 수정
+                document.getElementById('yearMonthDayText').textContent = info.dateStr;
 
-                    // 누적금액 수정
-                    document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, info.dateStr);
+                // 누적금액 수정
+                document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, info.dateStr);
+            } else {
 
-                    break;
+                let startDate = document.getElementById('startDate').value;
+                let endDate = document.getElementById('endDate').value;
+                let currentDate = info.dateStr;
 
-                case 'startDateImg':
-                    // 정합성검사 추가
-
-                    // 값 설정
-
-                    // 시작일자와 종료일자 둘다 있을경우 절약금액 표시
-
-                    break;
-
-                case 'endDateImg':
-                    // 정합성검사 추가
-
-                    // 값 설정
-
-                    // 시작일자와 종료일자 둘다 있을경우 절약금액 표시
-
-                    break;
-
-                default:
-                    break;
+                if (dateSearchType == 'startDateImg') {
+                    if (null === endDate) {
+                      document.getElementById('startDate').value = currentDate;
+                    } else {
+                        if (new Date(endDate) < new Date(currentDate)) {
+                            showNotification("시작일은 종료일 이전 날짜로 선택 해주세요.", "W");
+                            return false;
+                        }
+                        document.getElementById('startDate').value = currentDate;      
+                        document.getElementById('savingAmount').value = getCumulativeAmountFromDate(allData, currentDate, endDate);
+                    }                    
+                } else {
+                    if (null === startDate) {
+                        document.getElementById('endDate').value = currentDate;
+                      } else {
+                          if (new Date(startDate) > new Date(currentDate)) {
+                              showNotification("종료일은 시작일 이후 날짜로 선택 해주세요.", "W");
+                              return false;
+                          }
+                          document.getElementById('endDate').value = currentDate;      
+                          document.getElementById('savingAmount').value = getCumulativeAmountFromDate(allData, startDate, currentDate);
+                      }                     
+                }
             }
 
             // 캘린더 닫기
