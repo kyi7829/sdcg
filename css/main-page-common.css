@@ -7,39 +7,45 @@ body {
     flex-direction: column;
 }
 
-/* header (20%) */
+/* header (5%) */
 header {
     background-color: #007bff;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
-    height: 10%;
+    padding: 10px 0;
+    height: 5%;
     position: relative; 
+    align-items: center;    
+    display: flex;
+    justify-content: center;
 }
 
-/* body (60%) */
+header h2 {
+    margin: 0; /* h2의 기본 마진을 없애줍니다. */
+}
+
+/* body (75%) */
 .main-body {
     padding: 20px;
-    height: 60%;
+    height: 75%;
     overflow-y: auto;
 }
 
-/* banner ad (10%) */
+/* banner ad (7%) */
 .banner {
     background-color: #f0f0f0;
     text-align: center;
-    padding: 10px 0;
-    height: 10%;
+    height: 7%;
     position: relative; 
 }
 
-/* banner btn (10%) */
+/* banner btn (7%) */
 .banner-button {
     background-color: #007bff;
     color: #fff;
     text-align: center;
     padding-top: 10px;
-    height: 10%;
+    height: 7%;
     display: flex;
     position: relative; 
 }

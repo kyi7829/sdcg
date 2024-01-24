@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 시작일
             document.getElementById('yearMonthDayText').textContent = goalData.yearMonthDayText;
             // 누적금액
-            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, today);      
+            document.getElementById('cumulativeAmount').textContent = getCumulativeAmountFromBaseDate(allData, goalData.yearMonthDayText);      
         }
 
         modalWrapper.style.display = 'flex';
