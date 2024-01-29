@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // 현재 시각을 가져와서 표시
         const [datePart, timePart] = getCurrentDateTime();
-        document.getElementById('yearMonthDay').textContent = datePart;
+        document.getElementById('yearMonthDayText').textContent = datePart;
         document.getElementById('timepicker').value = timePart;
         timeValue = timePart;
 
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         dateClick: function (info) {
             // 날짜 수정
-            document.getElementById('yearMonthDay').textContent = info.dateStr;
+            document.getElementById('yearMonthDayText').textContent = info.dateStr;
 
             // 캘린더 닫기
             document.getElementById('calendarWrapper').style.display = 'none';  
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
     calendar.render();      
 
     // 달력 열기
-    yearMonthDay.addEventListener('click', () => {
+    yearMonthDayImg.addEventListener('click', () => {
         calendarWrapper.style.display = 'flex';
 
         // 달력 초기화
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
 // 등록
 submitModalBtn.addEventListener('click', () => {
     // 날짜
-    const yearMonthDay = document.getElementById('yearMonthDay').textContent; 
+    const yearMonthDay = document.getElementById('yearMonthDayText').textContent; 
     // 시간
     const hourMinute = document.getElementById('timepicker').value;
     // 항목

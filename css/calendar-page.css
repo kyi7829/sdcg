@@ -133,3 +133,26 @@ html, body {
 .white-bg:nth-child(1) {
     width: 33.33%;
 }
+
+#yearMonthDay {
+    display: flex;
+    border-left: 0;
+    border-bottom: 0; 
+    align-items: center; /* 수직 정렬을 가운데로 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 설정 */
+}
+
+#yearMonthDay p {
+    width: 180px;
+    height: auto;
+    margin: 0;
+}
+
+#timepicker {
+    width: 97%;
+}
+
+.white-bg.disable-on-popup > * {
+    width: 100%;
+    box-sizing: border-box; /* 너비에 padding과 border를 포함시킵니다. */
+}
