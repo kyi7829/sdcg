@@ -5,10 +5,7 @@ const btnSettings = document.getElementById('btnSettings');
 
 // 현재 페이지로 이동 제한
 function movePage (targetUrl) {
-    const targetFileName = targetUrl.split('/').pop();
-    const currentFileName = window.location.href.split('/').pop();
-    
-    if (currentFileName !== targetFileName) {
+    if (!window.location.href.includes(targetUrl.split('/').pop().replace('.html', ''))) {
         window.location.href = targetUrl;
     } 
 }
