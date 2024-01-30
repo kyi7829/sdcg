@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (localStorage.getItem('sdcg-showGuideYn') == 'Y') {
             // FIXME 모달창으로 변경 예정
-            alert("가이드 모달창을 띄울 예정");
+            // alert("가이드 모달창을 띄울 예정");
         }
     }
 
