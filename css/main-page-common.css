@@ -24,10 +24,10 @@ header h2 {
     margin: 0; /* h2의 기본 마진을 없애줍니다. */
 }
 
-/* body (75%) */
+/* body (79%) */
 .main-body {
     padding: 20px;
-    height: 75%;
+    height: 79%;
     overflow-y: auto;
 }
 
@@ -37,15 +37,15 @@ header h2 {
     text-align: center;
     height: 7%;
     position: relative; 
+    padding-bottom: 5px;
 }
 
-/* banner btn (7%) */
+/* banner btn (9%) */
 .banner-button {
-    background-color: #007bff;
+    background-color: #ffffff;
     color: #fff;
     text-align: center;
-    padding-top: 10px;
-    height: 7%;
+    height: 9%;
     display: flex;
     position: relative; 
 }
@@ -54,14 +54,14 @@ header h2 {
     flex: 1;
     height: 100%;
     width: 25%;
-    border: 1px solid gray;
+    border: none;
     padding: 0; /* 버튼 내부의 내용에 패딩 제거 */
     background: none; /* 기본 배경 제거 */
 }
 
 .banner-button button img {
-    max-width: 100%; /* 이미지를 버튼에 맞게 조절 */
-    max-height: 100%; /* 이미지를 버튼에 맞게 조절 */
+    max-width: 60%; /* 이미지를 버튼에 맞게 조절 */
+    max-height: 60%; /* 이미지를 버튼에 맞게 조절 */
     display: block; /* 이미지 사이 간격 제거 */
     margin: 0 auto; /* 이미지 가운데 정렬 */
 }
