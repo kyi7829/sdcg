@@ -24,10 +24,10 @@ header h2 {
     margin: 0; /* h2의 기본 마진을 없애줍니다. */
 }
 
-/* body (80%) */
+/* body (79%) */
 .main-body {
     padding: 20px;
-    height: 80%;
+    height: 79%;
     overflow-y: auto;
 }
 
@@ -37,16 +37,15 @@ header h2 {
     text-align: center;
     height: 7%;
     position: relative; 
-    margin-top: 5px;
-    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
-/* banner btn (8%) */
+/* banner btn (9%) */
 .banner-button {
     background-color: #ffffff;
     color: #fff;
     text-align: center;
-    height: 8%;
+    height: 9%;
     display: flex;
     position: relative; 
 }
