@@ -37,12 +37,12 @@ header h2 {
     text-align: center;
     height: 7%;
     position: relative; 
-    padding-bottom: 5px;
+    margin: 15px 0px 15px 0px;
 }
 
 /* banner btn (9%) */
 .banner-button {
-    background-color: #ffffff;
+    background-color: #6ab2ff;
     color: #fff;
     text-align: center;
     height: 9%;
