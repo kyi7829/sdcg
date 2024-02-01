@@ -1,4 +1,10 @@
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -33,11 +39,11 @@ header h2 {
 
 /* banner ad (7%) */
 .banner {
-    background-color: #ffffff;
+    background-color: #858585;
     text-align: center;
     height: 7%;
     position: relative; 
-    margin: 15px 0px 15px 0px;
+    margin-top: 15px;
 }
 
 /* banner btn (9%) */
@@ -48,6 +54,7 @@ header h2 {
     height: 9%;
     display: flex;
     position: relative; 
+    margin-top: 15px;
 }
 
 .banner-button button {
