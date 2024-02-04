@@ -135,6 +135,7 @@ window.onload = async function() {
                     location.reload();                       
                 }                                         
             }); 
+
         
             // 절약 금액
             const inputMoney = document.getElementById('inputMoney');
