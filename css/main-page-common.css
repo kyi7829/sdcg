@@ -53,7 +53,7 @@ header h2 {
     display: flex;
     position: relative; 
     box-sizing: border-box;
-    box-shadow: -2px 0px 23px #0000003b;
+    box-shadow: -2px 9px 25px #0000003b
 }
 
 #btnPlus {
