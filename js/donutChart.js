@@ -27,6 +27,7 @@ function drawChart() {
 
     const today = new Date();
 
+
     // 이번달 데이터 필터
     const thisMonthData = allData.filter((item) => {
         const itemDate = new Date(`${item.data.yearMonthDay} ${item.data.hourMinute}`);
