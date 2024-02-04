@@ -46,13 +46,23 @@ header h2 {
 /* banner btn (7%) */
 .banner-button {
     padding-top: 5px;
-    background-color: #6ab2ff;
+    background-color: #ffffff;
     color: #fff;
     text-align: center;
     height: 7%;
     display: flex;
     position: relative; 
     box-sizing: border-box;
+    box-shadow: -2px 0px 23px #0000003b;
+}
+
+#btnPlus {
+    flex: 1.5; /* btnPlus에 대한 비율을 크게 조절합니다. */
+}
+
+#btnPlus img {
+    max-width: 85%; /* 이미지를 버튼에 맞게 조절 */
+    max-height: 85%; /* 이미지를 버튼에 맞게 조절 */
 }
 
 .banner-button button {
@@ -95,4 +105,17 @@ header h2 {
 
 #notification.success {
     background-color: #4CAF50;
+}
+
+/* ========================================================================================================= */
+/*                                              아이콘                                                        */
+/* ========================================================================================================= */
+
+.fa-solid {
+    color: red;
+    max-width: 60%; /* 이미지를 버튼에 맞게 조절 */
+    max-height: 60%; /* 이미지를 버튼에 맞게 조절 */
+    display: block; /* 이미지 사이 간격 제거 */
+    margin: 0 auto; /* 이미지 가운데 정렬 */
+    font-size: medium;
 }
