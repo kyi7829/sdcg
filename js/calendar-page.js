@@ -1,27 +1,6 @@
 // 알림창 출력 플래그 
 let showNotificationYn = localStorage.getItem('sdcg-showNotificationYn') === 'true';
-let workDivision = localStorage.getItem('sdcg-workDivision') === 'true';
-
-// 알림창 출력 
-function showNotification(message, type) {
-    var notification = document.getElementById('notification');
-    
-    // alert / warning 구분    
-    if (type == "W") {
-        notification.classList.remove("success");
-        notification.classList.add("warning");
-    } else {
-        notification.classList.remove("warning");
-        notification.classList.add("success");
-    }
-
-    notification.textContent = message;
-    notification.style.display = 'block';
-
-    setTimeout(function() {
-      notification.style.display = 'none';
-    }, 5000); // 5초 후에 알림창을 숨김
-}
+let messageContents = localStorage.getItem('sdcg-messageContents');
 
 window.onload = async function() {
 
@@ -83,7 +62,7 @@ window.onload = async function() {
             document.getElementById('timepicker').value = dataInfo.hourMinute; // 시간  
             timeValue = dataInfo.hourMinute;
 
-            document.querySelector('td.white-bg select').value = dataInfo.selectedItem; // 항목
+            document.getElementById('categorySelect').value = dataInfo.selectedItem; // 항목
             document.getElementById('inputMoney').value = dataInfo.money; // 금액
             document.getElementById('memo').value = dataInfo.memo; // 메모
         
@@ -98,7 +77,7 @@ window.onload = async function() {
 
                 // 알림창 출력 플래그 변경
                 localStorage.setItem('sdcg-showNotificationYn', true);                
-                localStorage.setItem('sdcg-workDivision', false);    
+                localStorage.setItem('sdcg-messageContents', '내역이 삭제되었습니다.');    
 
                 // 페이지 새로고침
                 location.reload();  
@@ -129,7 +108,7 @@ window.onload = async function() {
 
                     // 알림창 출력 플래그 변경
                     localStorage.setItem('sdcg-showNotificationYn', true);                
-                    localStorage.setItem('sdcg-workDivision', true);                
+                    localStorage.setItem('sdcg-messageContents', '내역이 수정되었습니다.');                
 
                     // 페이지 새로고침
                     location.reload();                       
@@ -198,11 +177,7 @@ window.onload = async function() {
 
     // 알림창 출력
     if (showNotificationYn) {
-        if (workDivision) {
-            showNotification("내역이 수정되었습니다.");
-        } else {
-            showNotification("내역이 삭제되었습니다.");
-        }
+        showNotification(messageContents);
 
         // 알림창 출력 플래그 변경
         localStorage.setItem('sdcg-showNotificationYn', false);                  

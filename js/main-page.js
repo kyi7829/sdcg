@@ -1,80 +1,3 @@
-// 현재 시각을 가져오는 함수
-function getCurrentDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    let hours = now.getHours();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-
-    hours = hours % 12 || 12; // 0시는 12시로 표시
-    const hoursString = String(hours).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const datePart = `${year}-${month}-${day}`;
-    const timePart = `${hoursString}:${minutes} ${ampm}`;
-
-    return [datePart, timePart];
-}
-
-// 기존 화면 요소 비활성화
-function disableElements() {
-    const elementsToDisable = document.querySelectorAll(".disable-on-popup");
-
-    elementsToDisable.forEach((element) => {
-        element.style.pointerEvents = "none"; 
-    });
-}
-
-// 기존 화면 요소 활성화
-function enableElements() {
-    const elementsToEnable = document.querySelectorAll(".disable-on-popup");
-
-    // 기존 버튼과의 충돌로 인해 활성화 딜레이 추가
-    setTimeout(() => {
-        elementsToEnable.forEach((element) => {
-            element.style.pointerEvents = "auto";
-        });
-    }, 100); // 0.1초(100밀리초) 딜레이
-}
-
-// 절약 금액 inputFilter 적용
-function filterInput(inputElement, maxValue) {
-    inputElement.addEventListener('input', function () {
-        const inputValue = inputElement.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-        let numericValue = parseInt(inputValue, 10); // 숫자로 변환
-
-        // 최대값 적용
-        if (isNaN(numericValue) || numericValue < 1) {
-            inputElement.value = ''; // 값이 비거나 1 미만인 경우, 입력란 비움
-        } else {
-            numericValue = Math.min(maxValue, numericValue); // 최대값으로 제한
-            inputElement.value = numericValue; // 숫자를 다시 입력란에 반영
-        }
-    });
-}
-
-// 알림창 출력 
-function showNotification(message, type) {
-    var notification = document.getElementById('notification');
-    
-    // alert / warning 구분    
-    if (type == "W") {
-        notification.classList.remove("success");
-        notification.classList.add("warning");
-    } else {
-        notification.classList.remove("warning");
-        notification.classList.add("success");
-    }
-
-    notification.textContent = message;
-    notification.style.display = 'block';
-
-    setTimeout(function() {
-      notification.style.display = 'none';
-    }, 5000); // 5초 후에 알림창을 숨김
-}
-
 // 메인화면 데이터 최신화
 function getLocalStorageData() {
     
@@ -88,10 +11,12 @@ function getLocalStorageData() {
 
     // 도넛차트 이미지 출력
     if (allData.length == 0) {
-        document.querySelector('#donutImage img').style.display = 'block';
+        document.querySelector('#donutImage').style.display = 'block';
+        document.querySelector('#donutImage i').style.display = 'block';
         document.querySelector('#donutImage div').style.display = 'block';        
     } else {
-        document.querySelector('#donutImage img').style.display = 'none';
+        document.querySelector('#donutImage').style.display = 'none';
+        document.querySelector('#donutImage i').style.display = 'none';
         document.querySelector('#donutImage div').style.display = 'none';
     } 
 
@@ -159,37 +84,13 @@ function getLocalStorageData() {
         const moneyElement = document.getElementById(`recentSavingsMoney${index + 1}`);
         
         if (dateElement && itemElement && moneyElement) {
-            dateElement.textContent = datas.data.yearMonthDay + ' ' + datas.data.hourMinute;
+            dateElement.textContent = datas.data.yearMonthDay;
             itemElement.textContent = datas.data.selectedItem;
             moneyElement.textContent = datas.data.money;
         }
     });    
 }
-
-// 저장할 데이터의 신규키 채번
-function getNextKey() {
-    const prefix = 'sdcg-';
-
-    // Local Storage에서 모든 데이터의 key 가져오기
-    const allKeys = Object.keys(localStorage);
-
-    // prefix로 시작하는 key만 필터링
-    const matchingKeys = allKeys.filter((key) => key.startsWith(prefix));
-
-    if (matchingKeys.length === 0) {
-        // prefix로 시작하는 키가 하나도 없다면 sdcg-1 반환
-        return `${prefix}1`;
-    }
-
-    // matchingKeys 배열에서 최대값 추출
-    const maxNumericKey = matchingKeys.reduce((max, key) => {
-        const match = key.match(/^sdcg-(\d+)$/);
-        return match ? Math.max(max, parseInt(match[1], 10)) : max;
-    }, 0);
-
-    // 최대값 + 1 반환
-    return `${prefix}${maxNumericKey + 1}`;
-}
+window.getLocalStorageData = getLocalStorageData;
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -206,37 +107,37 @@ document.addEventListener('DOMContentLoaded', function () {
     // 메인화면 데이터 최신화
     getLocalStorageData();    
 
-    const modalWrapper = document.getElementById('modalWrapper');
-    const calendarWrapper = document.getElementById('calendarWrapper');
+    const recentAdd_modalWrapper = document.getElementById('recentAdd_modalWrapper');
+    const recentAdd_calendarWrapper = document.getElementById('recentAdd_calendarWrapper');
 
     // 모달 열기
-    openModalBtn.addEventListener('click', () => {
-        modalWrapper.style.display = 'flex';
+    btnModalOpen.addEventListener('click', () => {
+        recentAdd_modalWrapper.style.display = 'flex';
         
         // 현재 시각을 가져와서 표시
         const [datePart, timePart] = getCurrentDateTime();
-        document.getElementById('yearMonthDayText').textContent = datePart;
-        document.getElementById('timepicker').value = timePart;
+        document.getElementById('recentAdd_yearMonthDayText').textContent = datePart;
+        document.getElementById('recentAdd_timepicker').value = timePart;
         timeValue = timePart;
 
         // 항목 값 초기화
         document.querySelector('td.white-bg select').selectedIndex = 0; // 항목
-        document.getElementById('inputMoney').value = null; // 금액
-        document.getElementById('memo').value = null; // 메모
+        document.getElementById('recentAdd_inputMoney').value = null; // 금액
+        document.getElementById('recentAdd_memo').value = null; // 메모
     });
 
     // 모달 닫기
-    closeModalBtn.addEventListener('click', () => {
-        modalWrapper.style.display = 'none';
+    recentAdd_closeModalBtn.addEventListener('click', () => {
+        recentAdd_modalWrapper.style.display = 'none';
     });
 
 
     // 달력
     // [calendar 객체 지정]
-    var calendarElement = document.getElementById("calendar");
+    var recentAdd_calendarElement = document.getElementById("recentAdd_calendar");
 
     // [full-calendar 생성]
-    var calendar = new FullCalendar.Calendar(calendarElement, {
+    var recentAdd_calendar = new FullCalendar.Calendar(recentAdd_calendarElement, {
 
         // 해더에 표시할 툴바
         headerToolbar: {
@@ -258,10 +159,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
         dateClick: function (info) {
             // 날짜 수정
-            document.getElementById('yearMonthDayText').textContent = info.dateStr;
+            document.getElementById('recentAdd_yearMonthDayText').textContent = info.dateStr;
 
             // 캘린더 닫기
-            document.getElementById('calendarWrapper').style.display = 'none';  
+            document.getElementById('recentAdd_calendarWrapper').style.display = 'none';  
 
             // 기존 항목 클릭 활성화
             enableElements();
@@ -269,11 +170,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
     // [캘린더 랜더링]
-    calendar.render();      
+    recentAdd_calendar.render();      
 
     // 달력 열기
-    yearMonthDayImg.addEventListener('click', () => {
-        calendarWrapper.style.display = 'flex';
+    recentAdd_yearMonthDayImg.addEventListener('click', () => {
+        recentAdd_calendarWrapper.style.display = 'flex';
 
         // 달력 초기화
         document.querySelector(".fc-next-button.fc-button.fc-button-primary").click(); // css 충돌 방지 버튼 클릭
@@ -284,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });  
     
     // 절약 금액
-    const inputMoney = document.getElementById('inputMoney');
+    const inputMoney = document.getElementById('recentAdd_inputMoney');
     filterInput(inputMoney, 999999999999);
 
     // 금액 포맷 변경 100,000원 -> 100000
@@ -309,21 +210,21 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // 등록
-submitModalBtn.addEventListener('click', () => {
+recentAdd_submitModalBtn.addEventListener('click', () => {
     // 날짜
-    const yearMonthDay = document.getElementById('yearMonthDayText').textContent; 
+    const yearMonthDay = document.getElementById('recentAdd_yearMonthDayText').textContent; 
     // 시간
-    const hourMinute = document.getElementById('timepicker').value;
+    const hourMinute = document.getElementById('recentAdd_timepicker').value;
     // 항목
     const selectedItem = document.querySelector('.white-bg select').value;
     // 금액
-    const money = document.getElementById('inputMoney').value;
+    const money = document.getElementById('recentAdd_inputMoney').value;
     // 메모
-    const memo = document.getElementById('memo').value;
+    const memo = document.getElementById('recentAdd_memo').value;
 
     if (money == "") {
         showNotification("금액은 필수 입력 값입니다.", "W");
-        document.getElementById('inputMoney').focus();
+        document.getElementById('recentAdd_inputMoney').focus();
     } else {
         const saveDataInfo = {
             yearMonthDay,
@@ -337,7 +238,7 @@ submitModalBtn.addEventListener('click', () => {
         localStorage.setItem(getNextKey(), JSON.stringify(saveDataInfo));
     
         // 모달 숨김
-        modalWrapper.style.display = 'none';
+        recentAdd_modalWrapper.style.display = 'none';
     
         // 알림창 출력
         showNotification("내역이 추가되었습니다.");

@@ -60,7 +60,7 @@ function drawChart() {
     var data = google.visualization.arrayToDataTable(localData);
 
     var options = {
-    title: '이번 달 절약 항목별 통계',
+    // title: '이번 달 절약 항목별 통계',
     pieHole: 0.2,
     colors: ['#1E808A', '#CCE2E4', '#E9F4F5'] // 각 섹션에 대한 색상 지정
     };
