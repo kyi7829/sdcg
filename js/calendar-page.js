@@ -7,7 +7,6 @@ window.onload = async function() {
     // [현재 날짜 및 시간 확인]
     var korea_date = dayjs(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
     var format = "YYYY-MM-DDTHH:mm:ss"; 
-    var koreaNow = korea_date.format(format);
 
     // [calendar 객체 지정]
     var calendarElement = document.getElementById("calendar");
@@ -183,42 +182,3 @@ window.onload = async function() {
         localStorage.setItem('sdcg-showNotificationYn', false);                  
     }
 };    
-
-// 기존 화면 요소 비활성화
-function disableElements() {
-    const elementsToDisable = document.querySelectorAll(".disable-on-popup");
-
-    elementsToDisable.forEach((element) => {
-        element.style.pointerEvents = "none"; 
-    });
-}
-
-// 기존 화면 요소 활성화
-function enableElements() {
-    const elementsToEnable = document.querySelectorAll(".disable-on-popup");
-
-    // 기존 버튼과의 충돌로 인해 활성화 딜레이 추가
-    setTimeout(() => {
-        elementsToEnable.forEach((element) => {
-            element.style.pointerEvents = "auto";
-        });
-    }, 100); // 0.1초(100밀리초) 딜레이
-}
-
-// 절약 금액 inputFilter 적용
-function filterInput(inputElement, maxValue) {
-    inputElement.addEventListener('input', function () {
-        const inputValue = inputElement.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-        let numericValue = parseInt(inputValue, 10); // 숫자로 변환
-
-        // 최대값 적용
-        if (isNaN(numericValue) || numericValue < 1) {
-            inputElement.value = ''; // 값이 비거나 1 미만인 경우, 입력란 비움
-        } else {
-            numericValue = Math.min(maxValue, numericValue); // 최대값으로 제한
-            inputElement.value = numericValue; // 숫자를 다시 입력란에 반영
-        }
-    });
-}
-
-   

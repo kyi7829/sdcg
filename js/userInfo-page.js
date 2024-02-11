@@ -1,3 +1,7 @@
+// 알림창 출력 플래그 
+let showNotificationYn = localStorage.getItem('sdcg-showNotificationYn') === 'true';
+let messageContents = localStorage.getItem('sdcg-messageContents');
+
 // 목표설정 DATA KEY
 const dataKey = "sdcg-goalKey";
 
@@ -15,27 +19,6 @@ window.getCurrentDate = function() {
     const day = String(now.getDate()).padStart(2, '0');
 
     return `${year}-${month}-${day}`;
-}
-
-// 기존 화면 요소 비활성화
-function disableElements() {
-    const elementsToDisable = document.querySelectorAll(".disable-on-popup");
-
-    elementsToDisable.forEach((element) => {
-        element.style.pointerEvents = "none"; 
-    });
-}
-
-// 기존 화면 요소 활성화
-function enableElements() {
-    const elementsToEnable = document.querySelectorAll(".disable-on-popup");
-
-    // 기존 버튼과의 충돌로 인해 활성화 딜레이 추가
-    setTimeout(() => {
-        elementsToEnable.forEach((element) => {
-            element.style.pointerEvents = "auto";
-        });
-    }, 100); // 0.1초(100밀리초) 딜레이
 }
 
 // 이벤트 핸들러 함수 정의
@@ -60,43 +43,6 @@ dateSearchImgs.forEach(img => {
         openCalendar(img.id);
     });
 });
-
-// 금액 inputFilter 적용
-function filterInput(inputElement, maxValue) {
-    inputElement.addEventListener('input', function () {
-        const inputValue = inputElement.value.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-        let numericValue = parseInt(inputValue, 10); // 숫자로 변환
-
-        // 최대값 적용
-        if (isNaN(numericValue) || numericValue < 1) {
-            inputElement.value = ''; // 값이 비거나 1 미만인 경우, 입력란 비움
-        } else {
-            numericValue = Math.min(maxValue, numericValue); // 최대값으로 제한
-            inputElement.value = numericValue; // 숫자를 다시 입력란에 반영
-        }
-    });
-}
-
-// 알림창 출력 
-function showNotification(message, type) {
-    var notification = document.getElementById('notification');
-    
-    // alert / warning 구분    
-    if (type == "W") {
-        notification.classList.remove("success");
-        notification.classList.add("warning");
-    } else {
-        notification.classList.remove("warning");
-        notification.classList.add("success");
-    }
-
-    notification.textContent = message;
-    notification.style.display = 'block';
-
-    setTimeout(function() {
-      notification.style.display = 'none';
-    }, 5000); // 5초 후에 알림창을 숨김
-}
 
 // 다운로드 링크 복사
 function copyLink() {
@@ -282,6 +228,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }           
         }        
     });
+
+    // 알림창 출력
+    if (showNotificationYn) {
+        showNotification(messageContents);
+
+        // 알림창 출력 플래그 변경
+        localStorage.setItem('sdcg-showNotificationYn', false);                  
+    }
 });
 
 // 등록

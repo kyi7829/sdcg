@@ -1,4 +1,9 @@
+// 초기화 플래그
 let resetDivision;
+
+// 알림창 출력 플래그 
+let showNotificationYn = localStorage.getItem('sdcg-showNotificationYn') === 'true';
+let messageContents = localStorage.getItem('sdcg-messageContents');
 
 // 가이드 출력 옵션 변경
 function updateLocalStorage(value) {
@@ -20,27 +25,6 @@ function openConfirmModal(division) {
     modalWrapper.style.display = 'flex';
 
     resetDivision = division;
-}
-
-// 알림창 출력 
-function showNotification(message, type) {
-    var notification = document.getElementById('notification');
-    
-    // alert / warning 구분    
-    if (type == "W") {
-        notification.classList.remove("success");
-        notification.classList.add("warning");
-    } else {
-        notification.classList.remove("warning");
-        notification.classList.add("success");
-    }
-
-    notification.textContent = message;
-    notification.style.display = 'block';
-
-    setTimeout(function() {
-      notification.style.display = 'none';
-    }, 5000); // 5초 후에 알림창을 숨김
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -92,4 +76,12 @@ document.addEventListener('DOMContentLoaded', function () {
     closeModalBtn.addEventListener('click', () => {
         modalWrapper.style.display = 'none';
     });
+
+    // 알림창 출력
+    if (showNotificationYn) {
+        showNotification(messageContents);
+
+        // 알림창 출력 플래그 변경
+        localStorage.setItem('sdcg-showNotificationYn', false);                  
+    }
 });

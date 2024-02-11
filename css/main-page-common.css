@@ -141,9 +141,9 @@ header h2 {
 /* 모달 */
 .modal {
     width: 350px;
-    height: 630px; 
+    height: 500px; 
 }
-
+ 
 /* 모달 내용 */
 .modal-content {
     background-color: #ffffff;

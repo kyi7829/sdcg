@@ -42,7 +42,7 @@ button {
 }
 
 /* 모달 */
-.modal {
+.alert {
     width: 350px;
     height: 200px; 
 }

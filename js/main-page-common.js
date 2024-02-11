@@ -277,28 +277,19 @@ document.addEventListener('DOMContentLoaded', function() {
             recentAdd_modalWrapper.style.display = 'none';    
 
             // 페이지별 별도 처리
-            if (window.location.href.includes('main')) {    // 메인화면
-                // 알림창 출력
-                showNotification("내역이 추가되었습니다.");
-
-                // 메인화면 데이터 최신화
-                getLocalStorageData();
-
-                // 차트갱신
-                drawChart();
-            } else if (window.location.href.includes('calendar')) { // 캘린더 화면                
-                // 알림창 출력 플래그 변경
-                localStorage.setItem('sdcg-showNotificationYn', true);                
+            const currentPage = window.location.href;
+            if (currentPage.includes('main')) {    
+                // 메인화면            
+                // 새로고침으로 통일화?
+                showNotification("내역이 추가되었습니다."); 
+                getLocalStorageData(); 
+                drawChart(); 
+            } else if (currentPage.includes('calendar') || currentPage.includes('userInfo') || currentPage.includes('settings')) {                
+                // 캘린더, 사용자 정보, 설정                            
+                localStorage.setItem('sdcg-showNotificationYn', true);               
                 localStorage.setItem('sdcg-messageContents', '내역이 추가되었습니다.');                
-
-                // 페이지 새로고침
                 location.reload(); 
-            } else if (window.location.href.includes('userInfo')) { // 사용자 정보 화면
-                
-            } else {
-                
-            }                        
+            }
         }
     });       
-
 });    
