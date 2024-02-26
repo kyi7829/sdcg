@@ -45,17 +45,25 @@ dateSearchImgs.forEach(img => {
 });
 
 // 다운로드 링크 복사
-function copyLink() {
+function copyLink(division) {
 
     let linkUrl;
 
     // FIXME -------------------------------------------------------------------------------------------------------------->
     // 앱 출시 후 URL 변경 필요
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        linkUrl = 'ios TEST'
+    // if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    //     linkUrl = 'ios TEST'
+    // } else {
+    //     linkUrl = 'android TEST'
+    // }  
+
+    if (division == 'google') {
+        // Google Play Store url
+        linkUrl = 'PlayStore 출시 예정입니다.';
     } else {
-        linkUrl = 'android TEST'
-    }  
+        // Apple Appstore url
+        linkUrl = 'Appstore 출시 예정입니다.';
+    }
 
     // Clipboard API를 사용하여 텍스트를 클립보드에 복사
     navigator.clipboard.writeText(linkUrl);

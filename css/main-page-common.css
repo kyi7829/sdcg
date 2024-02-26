@@ -169,7 +169,7 @@ header h2 {
 
 /* 그레이 버튼 */
 .gray-button {
-    background-color: #b6b6b6;
+    background-color: #CCE2E4;
     color: #000000;
     border: none;
     padding: 10px 20px;
@@ -180,7 +180,7 @@ header h2 {
 
 /* 블루 버튼 */
 .blue-button {
-    background-color: #007bff;
+    background-color: #8ec5cb;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -198,7 +198,7 @@ header h2 {
 
 /* 표 gray 영역 */
 .gray-bg {
-    background-color: #ccc;
+    background-color: #CCE2E4;
     color: #000000;
     font-weight: bold;
 }
