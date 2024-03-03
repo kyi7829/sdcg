@@ -32,23 +32,25 @@
 
         <div class="section">
             <h2>기간별 절약금액 조회</h2>
+ 
+            <div id="dateSearchBox">
+                <div class="dateSearch">
+                    <input type="text" id="startDate" placeholder="시작일자">
+                    <img class="dateSearchImg" id="startDateImg" src="../images/calendar1 - 복사본.png" alt="달력 이미지">
+                    <span>~</span>
+                    <input type="text" id="endDate" placeholder="종료일자">
+                    <img class="dateSearchImg" id="endDateImg" src="../images/calendar1 - 복사본.png" alt="달력 이미지">
+                </div>
 
-            <div class="dateSearch">
-                <input type="text" id="startDate" placeholder="시작일자">
-                <img class="dateSearchImg" id="startDateImg" src="../images/calendar1 - 복사본.png" alt="달력 이미지">
-                <span>~</span>
-                <input type="text" id="endDate" placeholder="종료일자">
-                <img class="dateSearchImg" id="endDateImg" src="../images/calendar1 - 복사본.png" alt="달력 이미지">
-            </div>
-
-            <div class="dateSearch">
-                <input type="text" id="savingAmount" placeholder="절약금액">
-            </div>
-
+                <div class="dateSearch">
+                    <input type="text" id="savingAmount" placeholder="절약금액">
+                </div>
+            </div> 
+            
         </div>
     
         <div class="section">
-            <h2>다운로드 링크</h2>
+            <h2>공유하기</h2>
             <button class="btn_download" onclick="copyLink('google')"><img src="../images/btn_google.png"></button>
             <button id="btn_appstore" class="btn_download" onclick="copyLink('ios')"><img src="../images/btn_appstore_2.png"></button>
         </div>       

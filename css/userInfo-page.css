@@ -1,5 +1,13 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
 .section {
-    margin-bottom: 40px;
+    margin-bottom: 39px;
 }
 
 .radio-label {
@@ -7,11 +15,38 @@
 }
 
 button {
-    display: block;
+    /* display: block;
     width: 100%;
     padding: 10px;  
-    margin-bottom: 10px;           
+    margin-bottom: 10px;     */
+    
+    
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #99c4ca;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: large;
+    letter-spacing: 1px;
 }
+
+#openModalBtn{
+    font-family: 'Pretendard-Regular';
+}
+
+#dateSearchBox{
+    border: 2px solid #ccdcdf;
+    border-radius: 4px;
+    height: 4.8rem;
+    padding-top: 0.6rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
 
 #customConfirmModal {
     display: none;
@@ -164,6 +199,7 @@ button {
 .dateSearch {
     display: flex;
     align-items: center; /* 아이템들을 세로 가운데 정렬 */
+    margin-bottom: 0.36rem;
 }
 
 .dateSearch input {
@@ -171,6 +207,7 @@ button {
     padding: 5px; /* 내부 여백 추가 */
     box-sizing: border-box; /* 입력 필드의 크기를 컨텐츠와 패딩으로 계산하도록 설정 */
     pointer-events: none;
+    border: 1px solid #99c4ca;
 }
 
 .dateSearch img {
