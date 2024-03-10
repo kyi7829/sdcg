@@ -25,16 +25,18 @@
         <div id="notification"></div>
 
         <div class="section">
-            <h2>기본 설정</h2>
-            <label class="radio-label">부팅시 가이드 출력</label>
-            <input type="radio" name="bootGuide" id="bootGuideOn" onchange="updateLocalStorage('Y')">
-            <label for="bootGuideOn">ON</label>
-            <input type="radio" name="bootGuide" id="bootGuideOff" onchange="updateLocalStorage('N')">
-            <label for="bootGuideOff">OFF</label>
+            <h3>기본 설정</h3>
+            <div id="guide">
+                <label class="radio-label">부팅시 가이드 출력</label>
+                <input type="radio" name="bootGuide" id="bootGuideOn" onchange="updateLocalStorage('Y')">
+                <label for="bootGuideOn">ON</label>
+                <input type="radio" name="bootGuide" id="bootGuideOff" onchange="updateLocalStorage('N')">
+                <label for="bootGuideOff">OFF</label>
+            </div>
         </div>
     
         <div class="section">
-            <h2>초기화</h2>
+            <h3>초기화</h3>
             <button onclick="openConfirmModal('D')">내역 전부 삭제</button>
             <button onclick="openConfirmModal('R')">어플리케이션 초기화</button>
         </div>
@@ -44,7 +46,7 @@
             <div class="modal alert">
                 <!-- 모달 내용 -->
                 <div class="modal-content">
-                    <h2 id="confirm-content"></h2>
+                    <h3 id="confirm-content"></h3>
 
                     <div class="button-container disable-on-popup">
                         <button id="closeModalBtn" class="gray-button">취소</button>
@@ -55,7 +57,7 @@
         </div>
 
         <div class="section">
-            <h2>커피 한잔 후원</h2>
+            <h3>커피 한잔 후원</h3>
             <a id="coffee" href="https://www.buymeacoffee.com/yi7829e" target="_blank">
                 <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=yi7829e&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" />
             </a>
@@ -66,7 +68,7 @@
             <div class="modal">
                 <!-- 모달 내용 -->
                 <div class="modal-content">
-                    <h2>절약 내역 추가</h2>
+                    <h3>절약 내역 추가</h3>
 
                     <div class="addSavings">
                         <table>

@@ -22,6 +22,29 @@ button {
     height: auto;    
 }
 
+#guide {
+    border: 2px solid #ccdcdf;
+    border-radius: 4px;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #99c4ca;
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: large;
+    letter-spacing: 1px;
+}
+
 /* ========================================================================================================= */
 /*                                              모달화면                                                      */
 /* ========================================================================================================= */
