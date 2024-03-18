@@ -38,10 +38,12 @@ const openCalendar = (clickedImg) => {
 
 // 각 이미지에 이벤트 추가
 dateSearchImgs.forEach(img => {
-    img.addEventListener('click', () => {
-        // 클릭된 이미지의 id를 전달하여 openCalendar 함수 실행
-        openCalendar(img.id);
-    });
+    if (img.id != 'recentAdd_yearMonthDayImg') {
+        img.addEventListener('click', () => {
+            // 클릭된 이미지의 id를 전달하여 openCalendar 함수 실행
+            openCalendar(img.id);
+        });   
+    }
 });
 
 // 다운로드 링크 복사
@@ -74,22 +76,28 @@ window.getCumulativeAmountFromBaseDate = function(allData, baseDate) {
 
     // 기준일 이전의 데이터 필터링 및 계산
     const totalMoneyBeforeBaseDate = allData
-        .filter(entry => new Date(entry.data.yearMonthDay) >= new Date(baseDate))
-        .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
+    .filter(entry => new Date(entry.data.yearMonthDay) >= new Date(baseDate))
+    .reduce((sum, entry) => {
+        const money = entry.data.money.replace(/,/g, '').replace('원', ''); 
+        return sum + Number(money);
+    }, 0);
 
     return parseFloat(totalMoneyBeforeBaseDate).toLocaleString() + '원';
 }
 
 // 누적금액 날짜조회
 window.getCumulativeAmountFromDate = function(allData, startDate, endDate) {
-
+    
     // 시작일과 종료일 사이의 데이터 필터링 및 계산
     const totalMoneyBetweenDates = allData
         .filter(entry => {
             const entryDate = new Date(entry.data.yearMonthDay);
             return entryDate >= new Date(startDate) && entryDate <= new Date(endDate);
         })
-        .reduce((sum, entry) => sum + Number(entry.data.money.replace('원', '').replace(',', '')), 0);
+        .reduce((sum, entry) => {
+            const money = entry.data.money.replace(/,/g, '').replace('원', ''); // 모든 콤마 제거 및 '원' 문자 제거
+            return sum + Number(money);
+        }, 0);
 
     return parseFloat(totalMoneyBetweenDates).toLocaleString() + '원';
 }
@@ -114,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 오늘일자
         const today = getCurrentDate(); 
+
+        console.log(today);
 
         // dataKey로 INSERT/UPDATE 구분
         if (goalData == null ) { // INSERT                        
@@ -182,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
                       document.getElementById('startDate').value = currentDate;
                     } else {
                         if (new Date(endDate) < new Date(currentDate)) {
-                            showNotification("시작일은 종료일 이전 날짜로 선택 해주세요.", "W");
+                            showNotification("시작일은 종료일 이전 날짜로\n선택 해주세요.", "W");
                             return false;
                         }
                         document.getElementById('startDate').value = currentDate;      
@@ -193,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         document.getElementById('endDate').value = currentDate;
                       } else {
                           if (new Date(startDate) > new Date(currentDate)) {
-                              showNotification("종료일은 시작일 이후 날짜로 선택 해주세요.", "W");
+                              showNotification("종료일은 시작일 이후 날짜로\n선택 해주세요.", "W");
                               return false;
                           }
                           document.getElementById('endDate').value = currentDate;      
@@ -215,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 금액
     const inputGoalMoney = document.getElementById('inputGoalMoney');
-    filterInput(inputGoalMoney, 999999999999);
+    filterInput(inputGoalMoney, 10000000);
 
     // 금액 포맷 변경 100,000원 -> 100000
     inputGoalMoney.addEventListener('focus', function() {

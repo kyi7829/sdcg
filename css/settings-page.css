@@ -1,16 +1,10 @@
 .section {
     margin-bottom: 40px;
+    
 }
 
 .radio-label {
     margin-right: 10px;
-}
-
-button {
-    display: block;
-    width: 100%;
-    padding: 10px;  
-    margin-bottom: 10px;           
 }
 
 #customConfirmModal {
@@ -29,6 +23,7 @@ button {
     padding-bottom: 0.6rem;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    background-color: #CCE2E4;
 }
 
 button {
@@ -91,28 +86,6 @@ button {
     display: flex; /* 버튼 컨테이너를 가로로 정렬 */
     justify-content: flex-end; /* 버튼을 오른쪽으로 정렬 */
     margin-top: 50px; /* 버튼과 내용 사이 간격 조절 */
-}
-
-/* 그레이 버튼 */
-.gray-button {
-    background-color: #b6b6b6;
-    color: #000000;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 100%;
-}
-
-/* 블루 버튼 */
-.blue-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    height: 100%;
 }
 
 /* 각 버튼의 flex 설정 */

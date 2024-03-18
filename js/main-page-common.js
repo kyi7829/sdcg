@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 절약 금액
     const inputMoney = document.getElementById('recentAdd_inputMoney');
-    filterInput(inputMoney, 999999999999);
+    filterInput(inputMoney, 10000000);
     
     // 금액 포맷 변경 100,000원 -> 100000
     inputMoney.addEventListener('focus', function() {
