@@ -94,15 +94,21 @@ window.getLocalStorageData = getLocalStorageData;
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const guideWrapper = document.getElementById('guideWrapper');
+
     // 가이드 출력 여부 확인
     if (localStorage.getItem('sdcg-lastPage') == 'index') {
         localStorage.removeItem('sdcg-lastPage');
 
         if (localStorage.getItem('sdcg-showGuideYn') == 'Y') {
-            // FIXME 모달창으로 변경 예정
-            // alert("가이드 모달창을 띄울 예정");
+            guideWrapper.style.display = 'flex';
         }
     }
+
+    // 모달 닫기
+    guideCloseBtn.addEventListener('click', () => {
+        guideWrapper.style.display = 'none';
+    });
 
     // 메인화면 데이터 최신화
     getLocalStorageData();    
