@@ -157,8 +157,8 @@
 
 /* 모달 */
 .modal-guide {
-    width: 100%;
-    height: 100%; 
+    width: 335px;
+    height: 740px; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -167,7 +167,7 @@
 /* 모달 내용 */
 .modal-content-guide {
     background-image: url(../images/guide1.jpg);
-    background-size: cover; /* 이미지를 모달에 맞게 조절 */
+    background-size: contain;
     background-position: center; /* 이미지를 가운데 정렬 */
     width: calc(100% - 30px); /* 패딩을 고려하여 크기 설정 */
     height: calc(100% - 30px); /* 패딩을 고려하여 크기 설정 */

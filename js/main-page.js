@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const modalContent = document.getElementsByClassName('modal-content-guide');
 
-    function changeGuideImg(index) {
-        switch (index) {
+    function changeGuideImg() {
+        switch (guideStack) {
             case 1:
                 // guide1.jpg로 변경
                 modalContent[0].style.backgroundImage = "url('../images/guide1.jpg')";
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 가이드
     leftBtn.addEventListener('click', function () {
         guideStack--;
-        changeGuideImg(guideStack);
+        changeGuideImg();
 
         if (guideStack == 1) {
             leftBtn.style.display = 'none';
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
     rightBtn.addEventListener('click', function () {
         if (guideStack == 2) {
             guideStack++;
-            changeGuideImg(guideStack);
+            changeGuideImg();
             leftBtn.style.display = 'block';
             rightBtn.className = 'fa-solid fa-xmark';
         } else if (guideStack == 3) {
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
             rightBtn.className = 'fa-solid fa-caret-right';
         } else {
             guideStack++;
-            changeGuideImg(guideStack);
+            changeGuideImg();
             leftBtn.style.display = 'block';
         }
     });
