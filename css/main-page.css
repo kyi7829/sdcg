@@ -157,8 +157,8 @@
 
 /* 모달 */
 .modal-guide {
-    width: 335px;
-    height: 740px; 
+    width: 305px;
+    height: 680px; 
     display: flex;
     justify-content: center;
     align-items: center;
