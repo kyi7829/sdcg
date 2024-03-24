@@ -94,6 +94,8 @@ window.getLocalStorageData = getLocalStorageData;
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    let guideStack = 1;
+
     const guideWrapper = document.getElementById('guideWrapper');
 
     // 가이드 출력 여부 확인
@@ -105,13 +107,56 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 모달 닫기
-    guideCloseBtn.addEventListener('click', () => {
-        guideWrapper.style.display = 'none';
-    });
-
     // 메인화면 데이터 최신화
     getLocalStorageData();    
+
+    const modalContent = document.getElementsByClassName('modal-content-guide');
+
+    function changeGuideImg(index) {
+        switch (index) {
+            case 1:
+                // guide1.jpg로 변경
+                modalContent[0].style.backgroundImage = "url('../images/guide1.jpg')";
+                break;
+            case 2:
+                // guide2.jpg로 변경
+                modalContent[0].style.backgroundImage = "url('../images/guide2.jpg')";
+                break;
+            case 3:
+                // guide3.jpg로 변경
+                modalContent[0].style.backgroundImage = "url('../images/guide3.jpg')";
+                break;
+        }
+    }
+
+    // 가이드
+    leftBtn.addEventListener('click', function () {
+        guideStack--;
+        changeGuideImg(guideStack);
+
+        if (guideStack == 1) {
+            leftBtn.style.display = 'none';
+        } else if (guideStack == 2) {
+            rightBtn.className = 'fa-solid fa-caret-right';
+        }
+    });
+
+    rightBtn.addEventListener('click', function () {
+        if (guideStack == 2) {
+            guideStack++;
+            changeGuideImg(guideStack);
+            leftBtn.style.display = 'block';
+            rightBtn.className = 'fa-solid fa-xmark';
+        } else if (guideStack == 3) {
+            guideWrapper.style.display = 'none';
+            guideStack == 1;
+            rightBtn.className = 'fa-solid fa-caret-right';
+        } else {
+            guideStack++;
+            changeGuideImg(guideStack);
+            leftBtn.style.display = 'block';
+        }
+    });
 });
 
 
