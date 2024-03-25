@@ -324,3 +324,70 @@ header h2 {
     align-items: center;
     display: none;
 }
+
+/* ========================================================================================================= */
+/*                                            모달 - 가이드                                                  */
+/* ========================================================================================================= */
+/* 모달을 감싸는 paper */
+.guide-wrapper {
+    display: none; /* 모달을 초기에 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 배경을 반투명으로 만듦 */
+    z-index: 555;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+/* 모달 */
+.modal-guide {
+    width: 305px;
+    height: 680px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ 
+/* 모달 내용 */
+.modal-content-guide {
+    background-image: url(../images/guide1.jpg);
+    background-size: contain;
+    background-position: center; /* 이미지를 가운데 정렬 */
+    width: calc(100% - 30px); /* 패딩을 고려하여 크기 설정 */
+    height: calc(100% - 30px); /* 패딩을 고려하여 크기 설정 */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    display: flex; /* Flexbox 사용 */
+    flex-direction: column; /* 수직으로 아이템들을 정렬하기 위해 column으로 설정 */
+    justify-content: center; /* 수직 가운데 정렬 */
+}
+
+/* 버튼 컨테이너 */
+.guideBtnContainer {
+    width: 100%; /* 부모 요소에 꽉 차게 설정 */
+    display: flex; /* Flexbox 사용 */
+    justify-content: space-between; /* 좌우 정렬 */
+}
+
+/* 좌측 버튼 */
+#leftBtn {
+    margin-right: auto; /* 우측 여백을 자동으로 설정하여 좌측 정렬 */
+    margin-left: 10px;
+    color: #d5d5d8;
+    font-size: 70px;
+    display: none;
+}
+
+/* 우측 버튼 */
+#rightBtn {
+    margin-left: auto; /* 좌측 여백을 자동으로 설정하여 우측 정렬 */
+    margin-right: 10px;
+    color: #d5d5d8;
+    font-size: 70px;
+}

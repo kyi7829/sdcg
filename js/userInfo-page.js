@@ -123,8 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // 오늘일자
         const today = getCurrentDate(); 
 
-        console.log(today);
-
         // dataKey로 INSERT/UPDATE 구분
         if (goalData == null ) { // INSERT                        
             // 시작일

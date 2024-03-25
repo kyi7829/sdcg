@@ -96,6 +96,20 @@ function showNotification(message, type) {
 }
 window.showNotification = showNotification;
 
+// 가이드 이미지 스택
+let guideStack;
+
+// 가이드 출력
+function openGuide() {
+    const guideWrapper = document.getElementById('guideWrapper');
+    const questionMark = document.querySelector('.fa-regular.fa-circle-question');
+
+    guideStack = 1;
+    questionMark.style.color = '#1E808A';
+    guideWrapper.style.display = 'flex';
+}
+window.openGuide = openGuide;
+
 /***************************************************************************************************************************************
  *                                                     내역 추가 모달 OPEN
  * *************************************************************************************************************************************/
@@ -141,6 +155,17 @@ function getNextKey() {
 
     // 최대값 + 1 반환
     return `${prefix}${maxNumericKey + 1}`;
+}
+
+// 이미지를 미리 로드하여 캐시에 저장
+const imageCache = {};
+
+function preloadImage(url) {
+    if (!imageCache[url]) {
+        const img = new Image();
+        img.src = url;
+        imageCache[url] = img;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -292,4 +317,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });       
+
+    // 가이드
+    const guideWrapper = document.getElementById('guideWrapper');
+    const questionMark = document.querySelector('.fa-regular.fa-circle-question');
+
+    const modalContent = document.getElementsByClassName('modal-content-guide');
+    function changeGuideImg() {
+        switch (guideStack) {
+            case 1:
+                preloadImage('../images/guide2.jpg'); 
+                modalContent[0].style.backgroundImage = "url('../images/guide1.jpg')";
+                break;
+            case 2:
+                preloadImage('../images/guide3.jpg'); 
+                modalContent[0].style.backgroundImage = "url('../images/guide2.jpg')";
+                break;
+            case 3:
+                modalContent[0].style.backgroundImage = "url('../images/guide3.jpg')";
+                break;
+        }
+    }
+
+    questionMark.addEventListener('click', function() {
+        openGuide();        
+    });
+    
+    leftBtn.addEventListener('click', function () {
+        guideStack--;
+        changeGuideImg();
+
+        if (guideStack == 1) {
+            leftBtn.style.display = 'none';
+        } else if (guideStack == 2) {
+            rightBtn.className = 'fa-solid fa-caret-right';
+        }
+    });
+
+    rightBtn.addEventListener('click', function () {
+        if (guideStack == 2) {
+            guideStack++;
+            changeGuideImg();
+            leftBtn.style.display = 'block';
+            rightBtn.className = 'fa-solid fa-xmark';
+        } else if (guideStack == 3) {
+            guideWrapper.style.display = 'none';
+            document.querySelector('.fa-regular.fa-circle-question').style.color = '#808080';
+            guideStack == 1;
+            rightBtn.className = 'fa-solid fa-caret-right';
+        } else {
+            guideStack++;
+            changeGuideImg();
+            leftBtn.style.display = 'block';
+        }
+    });
 });    
