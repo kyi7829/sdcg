@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SDSamliphopangche_Basic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Basic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* 그림자 추가 */
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -8,13 +23,19 @@ body {
 }
 
 .logo-main {
+    font-family: 'SDSamliphopangche_Basic';
     margin-top: 4rem;
     margin-bottom: 10rem;
     width: 200px;
     height: 200px;
     position: relative;
-    background-image: url(sdcg.png); 
-    background-size: cover; /* 이미지를 원에 맞게 크기 조절 */
+    display: flex; /* 부모 요소를 플렉스 박스로 설정 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center; /* 수직 가운데 정렬 */
+    font-size: 4.5rem; /* 텍스트 크기 조절 */
+    color: #1e808c; /* 텍스트 색상 변경 */    
+    letter-spacing: 3px; /* 글자 간격을 조정 */
+    text-shadow: 4px 4px 0px #b8d9dd; /* 그림자 추가 */
 }
 
 .circle {
@@ -49,12 +70,29 @@ body {
 }
 
 .logo-container {
-    text-align: center;
-    width: 100%; /* 전체 너비 사용 */
-    margin-top: auto; /* 자동 마진으로 하단에 붙임 */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 11.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.logo-container img {
-    max-width: 100%; /* 이미지의 최대 가로 너비 조절 */
-    max-height: 100%; /* 이미지의 최대 세로 높이 조절 */
+.text-black, .text-mint {
+    font-family: 'Pretendard-Regular';
+    display: inline-block; /* 인라인 블록 요소로 설정하여 가로로 배치 */
+    font-size: 1.1rem; /* 텍스트 크기 조절 */    
+    letter-spacing: -0.5px; /* 글자 간격을 조정 */
+    font-weight: bold;
+}
+
+.text-black {
+    margin-right: 2px;
+    color: black;
+    /* 다른 스타일 추가 */
+}
+
+.text-mint {
+    margin-left: 2px;
+    color: #1e808c;
+    /* 다른 스타일 추가 */
 }
