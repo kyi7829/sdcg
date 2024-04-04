@@ -51,17 +51,9 @@ function copyLink(division) {
 
     let linkUrl;
 
-    // FIXME -------------------------------------------------------------------------------------------------------------->
-    // 앱 출시 후 URL 변경 필요
-    // if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-    //     linkUrl = 'ios TEST'
-    // } else {
-    //     linkUrl = 'android TEST'
-    // }  
-
     if (division == 'google') {
         // Google Play Store url
-        linkUrl = 'PlayStore 출시 예정입니다.';
+        linkUrl = 'https://play.google.com/store/apps/details?id=com.yi7829.sdcg.myapp';
     } else {
         // Apple Appstore url
         linkUrl = 'Appstore 출시 예정입니다.';
